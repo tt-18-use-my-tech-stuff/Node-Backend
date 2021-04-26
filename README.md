@@ -121,6 +121,14 @@ Headers:
   | description | string | |
 </details>
 
+### Delete your own item
+
+<details>
+  <summary>
+    DELETE /api/items/:item_id (auth)
+  </summary>
+</details>
+
 ## Requests
 
 ### Make a request
