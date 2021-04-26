@@ -46,5 +46,3 @@ router.use( (req, res) => {
   res.status(req.status).json({ message: `Welcome, ${username}`, token})
 })
 module.exports = router
-
-module.exports = router
