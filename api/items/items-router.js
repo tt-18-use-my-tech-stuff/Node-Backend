@@ -17,3 +17,5 @@ router.post('/', (req, res, next) => {
 router.put('/:item_id', (req, res, next) => {
 	res.json('edited');
 });
+
+module.exports = router;
