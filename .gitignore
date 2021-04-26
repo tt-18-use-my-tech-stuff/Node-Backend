@@ -122,4 +122,4 @@ dist
 .vscode/
 
 # testing db
-testing.db3
+*.db3
