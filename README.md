@@ -62,13 +62,15 @@ Headers:
   [
     {
       item_id: 1,
-      name: "Television",
+      item_name: "Television",
+      item_description: "New TV. Remote not included",
       owner: "Iron Man",
-      rented_by: "Thor",
+      renter: "Thor",
     },
     {
       item_id: 2,
-      name: "Camera",
+      item_name: "Camera",
+      item_description: "A really expensive camera. Neat!",
       owner: "Spiderman",
       renter: null (No one is renting this item)
     },
@@ -104,8 +106,8 @@ Headers:
   
   | Parameter | Type | Notes |
   | :-- | :-- | :-- |
-  | name | string | (required) |
-  | description | string | (required) |
+  | item_name | string | (required) |
+  | item_description | string | (required) |
 </details>
 
 ### Edit your own item
@@ -117,8 +119,8 @@ Headers:
   
   | Parameter | Type | Notes |
   | :-- | :-- | :-- |
-  | name | string | |
-  | description | string | |
+  | item_name | string | |
+  | item_description | string | |
 </details>
 
 ### Delete your own item
@@ -186,17 +188,6 @@ Headers:
   </summary>
   
   Can only be performed by the user who made the request.
-  
-  Response: The request that was deleted
-  ```
-  {
-    request_id: 1,
-    item_id: 2,
-    owner_id: 3,
-    renter_id: 4,
-    status: <Status as a string: "pending", "accepted", "rejected", or "completed">
-  }
-  ```
 </details>
 
 ## Your Account
@@ -246,12 +237,14 @@ Headers:
     {
       item_id: 1,
       name: "Television",
-      renter: "Iron Man",
+      item_description: "New TV. Remote not included",
+      renter: "Thor",
     },
     {
-      item_id: 2,
-      name: "Speakers",
-      renter: "Captain America",
+      item_id: 4,
+      item_name: "Speakers",
+      item_description: "Powered bookshelf speakers.".
+      renter: null (No one is renting this item)
     }
     ...
   ]
