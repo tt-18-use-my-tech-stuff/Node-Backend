@@ -147,7 +147,14 @@ Headers:
   ```
   {
     request_id: 1,
-    item: { item_id: 1, name: "Television", "owner_id": 1 }
+    item: {
+      item_id: 1,
+      name: "Television",
+      owner_id: 1,
+      renter_id: 2,
+      status: <Status as a string: "Pending", "Accepted", "Rejected", or "Completed">
+    },
+    owner: {}
   }
   ```
 </details>
