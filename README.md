@@ -63,14 +63,14 @@ Headers:
     {
       item_id: 1,
       name: "Television",
-      owner_id: 2,
+      owner: "Iron Man",
       rented_by: "Thor",
     },
     {
       item_id: 2,
       name: "Camera",
-      owner_id: 3,
-      rented_by: null
+      owner: "Spiderman",
+      renter: null (No one is renting this item)
     },
     ...
   ]
@@ -89,8 +89,8 @@ Headers:
   {
     item_id: 1,
     name: "Television",
-    owner: { user_id: 1, username: "Iron Man" },
-    rented_by: { user_id: 2, username: "Captain America" }
+    owner_id: 1,
+    renter_id: 2
   }
   ```
 </details>
@@ -147,14 +147,10 @@ Headers:
   ```
   {
     request_id: 1,
-    item: {
-      item_id: 1,
-      name: "Television",
-      owner_id: 1,
-      renter_id: 2,
-      status: <Status as a string: "pending", "accepted", "rejected", or "completed">
-    },
-    owner: {}
+    item_id: 2,
+    owner_id: 3,
+    renter_id: 4,
+    status: <Status as a string: "pending", "accepted", "rejected", or "completed">
   }
   ```
 </details>
@@ -186,8 +182,11 @@ Headers:
   Response: The request that was deleted
   ```
   {
-    request_id: 0,
-    item_id: 1
+    request_id: 1,
+    item_id: 2,
+    owner_id: 3,
+    renter_id: 4,
+    status: <Status as a string: "pending", "accepted", "rejected", or "completed">
   }
   ```
 </details>
@@ -224,7 +223,12 @@ Headers:
     {
       item_id: 1,
       name: "Television",
-      available: false
+      renter: "Iron Man",
+    },
+    {
+      item_id: 2,
+      name: "Speakers",
+      renter: "Captain America",
     }
     ...
   ]
@@ -241,8 +245,8 @@ Headers:
   Response:
   ```
   [
-    { request_id: 1, item_id: 1, owner: "Superman" },
-    { request_id: 2, item_id: 3, owner: "Batman" },
+    { request_id: 1, item: "Microphone", owner: "Superman", status: "Pending" },
+    { request_id: 2, item: "Headphones", owner: "Batman", status: "Accepted" },
     ...
   ]
   ```
@@ -258,8 +262,8 @@ Headers:
   Response:
   ```
   [
-    { request_id: 1, item_id: 1, requester: "Iron Man" },
-    { request_id: 2, item_id: 3, requester: "Captain America" },
+    { request_id: 1, item: "Keyboard", requester: "Iron Man" },
+    { request_id: 2, item: "Android", requester: "Captain America" },
     ...
   ]
   ```
