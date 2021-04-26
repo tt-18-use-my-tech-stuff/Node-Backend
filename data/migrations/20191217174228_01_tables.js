@@ -1,13 +1,51 @@
 exports.up = function (knex) {
     return knex.schema
         .createTable('users', tbl => {
-            tbl.increments('role_id')
-            tbl.text("username", 128)
+            tbl.increments('user_id')
+            tbl.string('username', 128)
                 .notNullable()
-        });
+            tbl.string('password')
+                .notNullable()
+            tbl.string('email', '256')
+        })
+        .createTable('items', tbl => {
+            tbl.increments('item_id')
+            tbl.string('item_name', 256)
+                .notNullable()
+            tbl.text('item_description')
+                .notNullable()
+            tbl.integer('owner_id')
+                .unsigned()
+                .references('users.user_id')
+                .notNullable()
+                .onDelete('CASCADE')
+                .onUpdate('CASCADE')
+            tbl.integer('request_id')
+                .unsigned()
+                .references('request.request_id')
+                .onDelete('CASCADE')
+                .onUpdate('CASCADE')
+        })
+        .createTable('requests', tbl => {
+            tbl.increments('request_id')
+            tbl.integer('renter_id')
+                .unsigned()
+                .references('users.user_id')
+                .notNullable()
+                .onDelete('CASCADE')
+                .onUpdate('CASCADE')
+            tbl.integer('item_id')
+                .unsigned()
+                .references('items.item_id')
+                .notNullable()
+                .onDelete('CASCADE')
+                .onUpdate('CASCADE')
+        })
 }
 
 exports.down = function (knex) {
     return knex.schema
         .dropTableIfExists('users')
+        .dropTableIfExists('items')
+        .dropTableIfExists('requests')
 }

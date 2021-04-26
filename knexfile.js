@@ -6,7 +6,6 @@ if (process.env.DATABASE_URL) {
 };
 
 const sharedConfig = {
-    client: 'pg',
     migrations: {directory: './data/migrations'},
     seeds: {directory: './data/seeds'},
 };
@@ -14,14 +13,17 @@ const sharedConfig = {
 module.exports = {
     development: {
         ...sharedConfig,
-        connection: process.env.DEV_URL,
+        client: 'sqlite3',
+        connection: './data/ourdb.db3',
     },
     testing: {
         ...sharedConfig,
-        connection: process.env.TESTING_URL,
+        client: 'sqlite3',
+        connection: './data/testing.db3',
     },
     production: {
         ...sharedConfig,
+        client: 'pg',
         connection: process.env.PRODUCTION_URL,
         pool: { min: 2, max: 10 },
     },
