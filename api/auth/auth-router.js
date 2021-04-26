@@ -23,6 +23,15 @@ router.post('/register', checkParamsPresent, checkUsernameUnique, async (req, _,
   next()
 })
 
+router.post("/login", checkParamsPresent, checkUserExists, (req, res, next) => {
+  const { password: goodHash } = req.user
+  const { password } = req.body
+  req.status = 200
+  bcrypt.compareSync(password, goodHash)
+    ? next()
+    : next({ status: 401, message: 'invalid credentials'})
+})
+
 router.use( (req, res) => {
   const { user_id, username, email } = req.user
   const payload = {
@@ -34,7 +43,7 @@ router.use( (req, res) => {
     expiresIn: '1d'
   }
   const token = jwt.sign(payload, JWT_SECRET, options)
-  res.status(req.status).json({ message: `${username} is back`, token})
+  res.status(req.status).json({ message: `Welcome, ${username}`, token})
 })
 module.exports = router
 
