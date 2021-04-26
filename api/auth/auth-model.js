@@ -19,7 +19,13 @@ function getByUsername(username){
     .first()
 }
 
-aysnc function insert(user){
+async function insert(user){
   const [id] = await db('users').insert(user)
   return getById(id)
+}
+
+function del(user_id){
+  return db('users')
+    .where({user_id})
+    .del()
 }
