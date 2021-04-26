@@ -205,7 +205,7 @@ Headers:
   {
     user_id: 1,
     username: "Iron Man",
-    role: "renter"
+    email: "IAmIronMan@mail.com"
   }
   ```
 </details>
