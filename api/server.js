@@ -12,7 +12,8 @@ server.use(cors());
 
 //Initialize routers here
 
-server.use((err, _, res, _) => {
+// two underscores gives argument name clash
+server.use((err, req, res, next) => {
   res.status(err.status || 500).json({
     message: err.message,
     stack: err.stack,

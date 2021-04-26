@@ -2,6 +2,7 @@
   "name": "use-my-tech-stuff-tt18",
   "version": "1.0.0",
   "scripts": {
+    "test": "cross-env NODE_ENV=testing jest --watchAll --verbose --runInBand",
     "start": "node index.js",
     "server": "nodemon index.js",
     "migrate": "knex migrate:latest",
