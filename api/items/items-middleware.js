@@ -2,8 +2,8 @@
 const Item = require('./items-model');
 
 const validItemFields = {
-	name: { type: "string" },
-	description: { type: "string" }
+	item_name: { type: "string" },
+	item_description: { type: "string" }
 };
 
 const validateItemPost = (req, res, next) => {
@@ -11,12 +11,8 @@ const validateItemPost = (req, res, next) => {
 	const keys = Object.keys(item);
 
 	// check required fields
-	if (!item.name) {
-		next({ status: 400, message: `name is required.` });
-		return;
-	}
-	if (!item.description) {
-		next({ status: 400, message: `description is required.` });
+	if (!item.item_name || !item.item_description) {
+		next({ status: 400, message: `item_name and item_description are required.` });
 		return;
 	}
 
@@ -24,6 +20,9 @@ const validateItemPost = (req, res, next) => {
 }
 
 const validateItemPut = (req, res, next) => {
+	const item = req.body;
+	const keys = Object.keys(item);
+
 	// check body for invalid fields
 	for (let i = 0; i < keys.length; i++) {
 		const key = keys[i];
@@ -41,6 +40,12 @@ const validateItemPut = (req, res, next) => {
 		}
 	}
 
+	next();
+}
+
+const attachOwnerId = (req, res, next) => {
+	// find owner id from token and attach it to body
+	req.body.owner_id = Math.floor(Math.random() * 10);
 	next();
 }
 
@@ -63,5 +68,6 @@ const checkItemIdExists = (req, res, next) => {
 module.exports = {
 	validateItemPost,
 	validateItemPut,
+	attachOwnerId,
 	checkItemIdExists
 }
