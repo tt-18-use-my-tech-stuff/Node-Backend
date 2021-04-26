@@ -152,7 +152,7 @@ Headers:
       name: "Television",
       owner_id: 1,
       renter_id: 2,
-      status: <Status as a string: "Pending", "Accepted", "Rejected", or "Completed">
+      status: <Status as a string: "pending", "accepted", "rejected", or "completed">
     },
     owner: {}
   }
