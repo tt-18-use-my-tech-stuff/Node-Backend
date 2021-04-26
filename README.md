@@ -62,15 +62,17 @@ Headers:
   [
     {
       item_id: 1,
-      name: "Television",
+      item_name: "Television",
+      item_description: "New TV. Remote not included",
       owner: "Iron Man",
-      rented_by: "Thor",
+      renter: "Thor",
     },
     {
       item_id: 2,
-      name: "Camera",
+      item_name: "Camera",
+      item_description: "A really expensive camera. Neat!",
       owner: "Spiderman",
-      rented_by: null
+      renter: null (No one is renting this item)
     },
     ...
   ]
@@ -89,8 +91,8 @@ Headers:
   {
     item_id: 1,
     name: "Television",
-    owner: { user_id: 1, username: "Iron Man" },
-    rented_by: { user_id: 2, username: "Captain America" }
+    owner_id: 1,
+    renter_id: 2
   }
   ```
 </details>
@@ -104,21 +106,29 @@ Headers:
   
   | Parameter | Type | Notes |
   | :-- | :-- | :-- |
-  | name | string | (required) |
-  | description | string | |
+  | item_name | string | (required) |
+  | item_description | string | (required) |
 </details>
 
 ### Edit your own item
 
 <details>
   <summary>
-    POST /api/items/:item_id (auth)
+    PUT /api/items/:item_id (auth)
   </summary>
   
   | Parameter | Type | Notes |
   | :-- | :-- | :-- |
-  | name | string | |
-  | description | string | |
+  | item_name | string | |
+  | item_description | string | |
+</details>
+
+### Delete your own item
+
+<details>
+  <summary>
+    DELETE /api/items/:item_id (auth)
+  </summary>
 </details>
 
 ## Requests
@@ -147,14 +157,10 @@ Headers:
   ```
   {
     request_id: 1,
-    item: {
-      item_id: 1,
-      name: "Television",
-      owner_id: 1,
-      renter_id: 2,
-      status: <Status as a string: "pending", "accepted", "rejected", or "completed">
-    },
-    owner: {}
+    item_id: 2,
+    owner_id: 3,
+    renter_id: 4,
+    status: <Status as a string: "pending", "accepted", "rejected", or "completed">
   }
   ```
 </details>
@@ -182,14 +188,6 @@ Headers:
   </summary>
   
   Can only be performed by the user who made the request.
-  
-  Response: The request that was deleted
-  ```
-  {
-    request_id: 0,
-    item_id: 1
-  }
-  ```
 </details>
 
 ## Your Account
@@ -206,9 +204,24 @@ Headers:
   {
     user_id: 1,
     username: "Iron Man",
-    role: "renter"
+    email: "IAmIronMan@mail.com"
   }
   ```
+</details>
+
+### Edit your own account info
+
+<details>
+  <summary>
+    PUT /api/account (auth)
+  </summary>
+
+  Body:
+  | Parameter | Type | Notes |
+  | :-- | :-- | :-- |
+  | username | string | |
+  | password | string | |
+  | email | string | |
 </details>
 
 ### Get items you own
@@ -224,7 +237,14 @@ Headers:
     {
       item_id: 1,
       name: "Television",
-      available: false
+      item_description: "New TV. Remote not included",
+      renter: "Thor",
+    },
+    {
+      item_id: 4,
+      item_name: "Speakers",
+      item_description: "Powered bookshelf speakers.".
+      renter: null (No one is renting this item)
     }
     ...
   ]
@@ -241,8 +261,8 @@ Headers:
   Response:
   ```
   [
-    { request_id: 1, item_id: 1, owner: "Superman" },
-    { request_id: 2, item_id: 3, owner: "Batman" },
+    { request_id: 1, item: "Microphone", owner: "Superman", status: "Pending" },
+    { request_id: 2, item: "Headphones", owner: "Batman", status: "Accepted" },
     ...
   ]
   ```
@@ -258,8 +278,8 @@ Headers:
   Response:
   ```
   [
-    { request_id: 1, item_id: 1, requester: "Iron Man" },
-    { request_id: 2, item_id: 3, requester: "Captain America" },
+    { request_id: 1, item: "Keyboard", requester: "Iron Man" },
+    { request_id: 2, item: "Android", requester: "Captain America" },
     ...
   ]
   ```
