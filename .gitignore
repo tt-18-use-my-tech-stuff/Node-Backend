@@ -123,3 +123,6 @@ dist
 
 # testing db
 *.db3
+
+# Misc
+*.http
