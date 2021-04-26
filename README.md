@@ -21,8 +21,7 @@ Headers:
   | :-- | :-- | :-- |
   | username | string | (required) |
   | password | string | (required) |
-  | email | string | (required) |
-  | role | string | "user" or "renter" (defaults to "user") |
+  | email | string | |
 
   Response:
   ```
@@ -175,7 +174,7 @@ Headers:
     DELETE /api/requests/:request_id (auth)
   </summary>
   
-  Can only be performed by the one who made the request.
+  Can only be performed by the user who made the request.
   
   Response: The request that was deleted
   ```
@@ -248,8 +247,6 @@ Headers:
   <summary>
     GET /api/account/requests/owned (auth)
   </summary>
-  
-  Can only be performed by renters
 
   Response:
   ```
