@@ -112,7 +112,7 @@ Headers:
 
 <details>
   <summary>
-    POST /api/items/:item_id (auth)
+    PUT /api/items/:item_id (auth)
   </summary>
   
   | Parameter | Type | Notes |
@@ -208,6 +208,21 @@ Headers:
     email: "IAmIronMan@mail.com"
   }
   ```
+</details>
+
+### Edit your own account info
+
+<details>
+  <summary>
+    PUT /api/account (auth)
+  </summary>
+
+  Body:
+  | Parameter | Type | Notes |
+  | :-- | :-- | :-- |
+  | username | string | |
+  | password | string | |
+  | email | string | |
 </details>
 
 ### Get items you own
