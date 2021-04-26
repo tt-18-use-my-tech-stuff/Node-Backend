@@ -20,11 +20,6 @@ exports.up = function (knex) {
                 .notNullable()
                 .onDelete('CASCADE')
                 .onUpdate('CASCADE')
-            tbl.integer('request_id')
-                .unsigned()
-                .references('request.request_id')
-                .onDelete('CASCADE')
-                .onUpdate('CASCADE')
         })
         .createTable('requests', tbl => {
             tbl.increments('request_id')
