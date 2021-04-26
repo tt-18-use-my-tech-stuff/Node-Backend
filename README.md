@@ -63,13 +63,13 @@ Headers:
     {
       item_id: 1,
       name: "Television",
-      owner: "Iron Man",
+      owner_id: 2,
       rented_by: "Thor",
     },
     {
       item_id: 2,
       name: "Camera",
-      owner: "Spiderman",
+      owner_id: 3,
       rented_by: null
     },
     ...
