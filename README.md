@@ -105,7 +105,7 @@ Headers:
   | Parameter | Type | Notes |
   | :-- | :-- | :-- |
   | name | string | (required) |
-  | description | string | |
+  | description | string | (required) |
 </details>
 
 ### Edit your own item
