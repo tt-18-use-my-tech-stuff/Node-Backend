@@ -123,7 +123,6 @@ Headers:
     item_name: "Television",
     item_description: "A nice TV! Remote not included",
     owner_id: 1,
-    renter_id: 2,
     price: 15.00,
     category: "Displays"
   }
