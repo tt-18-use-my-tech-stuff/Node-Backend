@@ -1,5 +1,7 @@
 # Use My Tech Stuff API
 
+Hosted Backend URL: https://tt18-build-week.herokuapp.com/
+
 Endpoints with an (auth) require an authorization token like so: 
 
 Headers:
