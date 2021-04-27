@@ -90,7 +90,8 @@ Headers:
   ```
   {
     item_id: 1,
-    name: "Television",
+    item_name: "Television",
+    item_description: "A nice TV! Remote not included",
     owner_id: 1,
     renter_id: 2
   }
@@ -108,6 +109,17 @@ Headers:
   | :-- | :-- | :-- |
   | item_name | string | (required) |
   | item_description | string | (required) |
+
+  Response: The created item
+  ```
+  {
+    item_id: 1,
+    item_name: "Television",
+    item_description: "A nice TV! Remote not included",
+    owner_id: 1,
+    renter_id: 2
+  }
+  ```
 </details>
 
 ### Edit your own item
@@ -121,6 +133,17 @@ Headers:
   | :-- | :-- | :-- |
   | item_name | string | |
   | item_description | string | |
+
+  Response: Item with new edits
+  ```
+  {
+    item_id: 1,
+    item_name: "Television",
+    item_description: "Just broke it, but it works still? sort of? Still can't find the remote",
+    owner_id: 1,
+    renter_id: 2
+  }
+  ```
 </details>
 
 ### Delete your own item
@@ -129,6 +152,11 @@ Headers:
   <summary>
     DELETE /api/items/:item_id (auth)
   </summary>
+  
+  Response: Deleted item_id
+  ```
+  1
+  ```
 </details>
 
 ## Requests
@@ -144,6 +172,17 @@ Headers:
   | Parameter | Type | Notes |
   | :-- | :-- | :-- |
   | item_id | int | (required) |
+  
+  Response: Newly created request
+  ```
+  {
+    request_id: 1,
+    item_id: 2,
+    owner_id: 3,
+    renter_id: 4,
+    status: "pending"
+  }
+  ```
 </details>
 
 ### Get request by id
@@ -178,6 +217,17 @@ Headers:
   | Parameter | Type | Notes |
   | :-- | :-- | :-- |
   | accepted | boolean | Accept or decline a request. (required) |
+  
+  Response: Request with new status
+  ```
+  {
+    request_id: 1,
+    item_id: 2,
+    owner_id: 3,
+    renter_id: 4,
+    status: <Status as a string: "accepted" or "rejected">
+  }
+  ```
 </details>
 
 ### Cancel a request
@@ -188,6 +238,11 @@ Headers:
   </summary>
   
   Can only be performed by the user who made the request.
+  
+  Response: Deleted request request_id
+  ```
+  2
+  ```
 </details>
 
 ## Your Account
