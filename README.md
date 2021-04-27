@@ -52,11 +52,44 @@ Headers:
 
 ## Items
 
+### Get all items
+
+<details>
+  <summary>
+    GET /api/items (auth)
+  </summary>
+
+  Response:
+  ```
+  [
+    {
+      item_id: 1,
+      item_name: "Television",
+      item_description: "New TV. Remote not included",
+      owner: "Iron Man",
+      price: 15.00,
+      category: "Displays",
+      renter_id: "Spiderman"
+    },
+    {
+      item_id: 2,
+      item_name: "Camera",
+      item_description: "A really expensive camera. Neat!",
+      owner: "Spiderman",
+      price: 20.00,
+      category: "Photography",
+      renter_id: null (no one is renting this)
+    },
+    ...
+  ]
+  ```
+</details>
+
 ### Get available items
 
 <details>
   <summary>
-    GET /api/items/ (auth)
+    GET /api/items/available (auth)
   </summary>
 
   Response:
