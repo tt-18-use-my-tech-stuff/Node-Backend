@@ -4,6 +4,8 @@ const bcrypt = require('bcryptjs')
 exports.seed = async knex => {
   await knex('users').del();
   return knex('users').insert([
-    { username: 'bobby', password: bcrypt.hashSync('aoeu', 8) }
+    { username: 'bobby', password: bcrypt.hashSync('aoeu', 8) },
+    { username: 'sally', password: bcrypt.hashSync('aoeu', 8) },
+    { username: 'joey', password: bcrypt.hashSync('aoeu', 8), email: 'joeyisthebest@mail.com' }
   ]);
 }

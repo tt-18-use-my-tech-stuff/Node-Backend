@@ -1,6 +1,6 @@
-const express = require("express");
-const helmet = require("helmet");
-const cors = require("cors");
+const express = require('express');
+const helmet = require('helmet');
+const cors = require('cors');
 
 //Import routers here
 const authRouter = require('./auth/auth-router.js');
