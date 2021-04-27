@@ -66,13 +66,17 @@ Headers:
       item_id: 1,
       item_name: "Television",
       item_description: "New TV. Remote not included",
-      owner: "Iron Man"
+      owner: "Iron Man",
+      price: 15.00,
+      category: "Displays"
     },
     {
       item_id: 2,
       item_name: "Camera",
       item_description: "A really expensive camera. Neat!",
-      owner: "Spiderman"
+      owner: "Spiderman",
+      price: 20.00,
+      category: "Photography"
     },
     ...
   ]
@@ -93,7 +97,9 @@ Headers:
     item_name: "Television",
     item_description: "A nice TV! Remote not included",
     owner_id: 1,
-    renter_id: 2
+    renter_id: 2,
+    price: 15.00,
+    category: "Displays"
   }
   ```
 </details>
@@ -117,7 +123,9 @@ Headers:
     item_name: "Television",
     item_description: "A nice TV! Remote not included",
     owner_id: 1,
-    renter_id: 2
+    renter_id: 2,
+    price: 15.00,
+    category: "Displays"
   }
   ```
 </details>
@@ -141,7 +149,9 @@ Headers:
     item_name: "Television",
     item_description: "Just broke it, but it works still? sort of? Still can't find the remote",
     owner_id: 1,
-    renter_id: 2
+    renter_id: 2,
+    price: 5.00,
+    category: "Displays"
   }
   ```
 </details>
@@ -294,12 +304,16 @@ Headers:
       name: "Television",
       item_description: "New TV. Remote not included",
       renter: "Thor",
+      price: 15.00,
+      category: "Displays"
     },
     {
       item_id: 4,
       item_name: "Speakers",
       item_description: "Powered bookshelf speakers.".
-      renter: null (No one is renting this item)
+      renter: null (No one is renting this item),
+      price: 11.00,
+      category: "Audio"
     }
     ...
   ]
