@@ -154,6 +154,8 @@ Headers:
   | :-- | :-- | :-- |
   | item_name | string | (required) |
   | item_description | string | (required) |
+  | price | number | (required) |
+  | category | string | (required) |
 
   Response: The created item
   ```
