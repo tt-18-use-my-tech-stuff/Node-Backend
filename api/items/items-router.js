@@ -5,36 +5,45 @@ const {
 	validateItemPost,
 	validateItemPut,
 	attachOwnerId,
-	checkItemIdExists
+	checkItemIdExists,
+	checkItemIsMine
 } = require('./items-middleware');
 
 router.get('/', (req, res, next) => {
-	Item.find()
+	Item.get()
 		.then(items => {
 			res.status(200).json(items);
 		})
 		.catch(next);
 });
 
-router.get('/:item_id', checkItemIdExists, (req, res, next) => {
-	res.json('got by id');
+router.get('/:item_id', checkItemIdExists, (req, res) => {
+	res.status(200).json(req.item);
 });
 
 router.post('/', validateItemPost, attachOwnerId, (req, res, next) => {
 	const item = req.body;
-	Item.add(item)
+	Item.insert(item)
 		.then(createdItem => {
 			res.status(201).json(createdItem);
 		})
-		.catch(next)
+		.catch(next);
 });
 
 router.put('/:item_id', checkItemIdExists, validateItemPut, (req, res, next) => {
-	res.json('edited');
+	Item.update(req.params.item_id, req.body)
+		.then(updatedItem => {
+			res.status(200).json(updatedItem);
+		})
+		.catch(next);
 });
 
-router.delete('/:item_id', checkItemIdExists, (req, res, next) => {
-	res.json('delorted');
+router.delete('/:item_id', checkItemIdExists, checkItemIsMine, (req, res, next) => {
+	Item.del(req.params.item_id)
+		.then(deletedItemId => {
+			res.status(200).json(deletedItemId);
+		})
+		.catch(next);
 });
 
 module.exports = router;

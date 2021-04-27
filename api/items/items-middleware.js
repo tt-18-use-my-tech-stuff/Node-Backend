@@ -8,11 +8,10 @@ const validItemFields = {
 
 const validateItemPost = (req, res, next) => {
 	const item = req.body;
-	const keys = Object.keys(item);
 
 	// check required fields
 	if (!item.item_name || !item.item_description) {
-		next({ status: 400, message: `item_name and item_description are required.` });
+		next({ status: 400, message: `item_name and item_description required.` });
 		return;
 	}
 
@@ -45,12 +44,12 @@ const validateItemPut = (req, res, next) => {
 
 const attachOwnerId = (req, res, next) => {
 	// find owner id from token and attach it to body
-	req.body.owner_id = Math.floor(Math.random() * 10);
+	req.body.owner_id = req.decodedToken.subject;
 	next();
 }
 
 const checkItemIdExists = (req, res, next) => {
-	const item_id = req.params.item_id
+	const item_id = req.params.item_id;
 
 	Item.getById(item_id)
 		.then(item => {
@@ -62,12 +61,29 @@ const checkItemIdExists = (req, res, next) => {
 				next({ status: 404, message: `No item found with id ${item_id}.` });
 			}
 		})
-		.err(next);
+		.catch(next);
+}
+
+const checkItemIsMine = (req, res, next) => {
+	const item_id = req.params.item_id;
+	const myId = req.decodedToken.subject;
+
+	Item.getById(item_id)
+		.then(item => {
+			if (item.owner_id === myId) {
+				next();
+			}
+			else {
+				next({ status: 403, message: "You are not the owner of this item." });
+			}
+		})
+		.catch(next);
 }
 
 module.exports = {
 	validateItemPost,
 	validateItemPut,
 	attachOwnerId,
-	checkItemIdExists
+	checkItemIdExists,
+	checkItemIsMine
 }

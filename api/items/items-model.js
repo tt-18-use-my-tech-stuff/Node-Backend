@@ -1,37 +1,38 @@
 
 const db = require("../../data/dbconfig");
 
-const find = () => {
+const get = () => {
 	return db('items');
 };
 
-const findBy = (filter) => {
+const getBy = (filter) => {
 	return db('items').where(filter).first();
 }
 
-const findById = (item_id) => {
-	return findBy({ item_id });
+const getById = (item_id) => {
+	return getBy({ item_id });
 };
 
-const add = async (item) => {
+const insert = async (item) => {
 	const [ createdItemId ] = await db("items").insert(item);
-	return findById(createdItemId);
+	return getById(createdItemId);
 };
 
-const editById = async (item_id, item) => {
-	const [ editedItemId ] = await db("items").where({ item_id }).update(item);
-	return findById(editedItemId);
+const update = async (item_id, item) => {
+	await db("items").where({ item_id }).update(item);
+	return getById(item_id);
 };
 
-const deleteById = async (item_id) => {
-	const [ deletedItemId ] = await db("items").where({ item_id }).del();
-	return deletedItemId;
+const del = async (item_id) => {
+	await db("items").where({ item_id }).del();
+	return item_id;
 };
 
 module.exports = {
-	find,
-	findById,
-	add,
-	editById,
-	deleteById
+	get,
+	getBy,
+	getById,
+	insert,
+	update,
+	del
 };
