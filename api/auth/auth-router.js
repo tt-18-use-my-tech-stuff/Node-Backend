@@ -34,8 +34,9 @@ router.post("/login", checkParamsPresent, checkUserExists, (req, res, next) => {
     : next({ status: 401, message: 'invalid credentials'})
 })
 
-router.use( (req, res) => {
-  console.log('breaks', req.user)
+router.use( (req, res, next) => {
+  !req.user && next({ status: 404, message: 'Please make sure you\'re using the right path'})
+  
   const { user_id, username, email } = req.user
   const payload = {
     subject: user_id,
