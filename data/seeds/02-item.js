@@ -1,6 +1,6 @@
 
 exports.seed = async knex => {
-  await knex('items').truncate();
+  await knex('items').del();
   return knex('items').insert([
     { item_id: 1, item_name: 'Standing Desk', item_description: "It stands! it's a desk!", owner_id: 1 },
     { item_id: 2, item_name: 'Headphones', item_description: "Guaranteed 88% germ-free!", owner_id: 1 },
