@@ -27,7 +27,6 @@ async function insert(user){
     return db('users')
       .insert(user)
       .returning(['user_id', 'username', 'password', 'email'])
-      .first()
   }
 }
 
