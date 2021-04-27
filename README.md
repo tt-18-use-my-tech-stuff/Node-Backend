@@ -69,7 +69,7 @@ Headers:
       owner: "Iron Man",
       price: 15.00,
       category: "Displays",
-      renter_id: "Spiderman"
+      renter: "Spiderman"
     },
     {
       item_id: 2,
@@ -78,7 +78,7 @@ Headers:
       owner: "Spiderman",
       price: 20.00,
       category: "Photography",
-      renter_id: null (no one is renting this)
+      renter: null (no one is renting this)
     },
     ...
   ]
