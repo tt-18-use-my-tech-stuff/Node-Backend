@@ -6,7 +6,7 @@ const cors = require("cors");
 const authRouter = require('./auth/auth-router.js');
 const itemsRouter = require("./items/items-router");
 const accountRouter = require("./accounts/account-router.js")
-
+const requestsRouter = require('./requests/requests-router.js')
 const { accountRequired } = require("./middleware/restricted");
 
 const server = express();
@@ -19,6 +19,7 @@ server.use(cors());
 server.use('/api/auth', authRouter)
 server.use("/api/items", accountRequired, itemsRouter);
 server.use("/api/account", accountRouter)
+server.use('/api/requests', requestsRouter)
 
 server.use((err, req, res, next) => { // eslint-disable-line
   res.status(err.status || 500).json({
