@@ -66,19 +66,23 @@ Headers:
       item_id: 1,
       item_name: "Television",
       item_description: "New TV. Remote not included",
-      owner: "Iron Man",
       price: 15.00,
       category: "Displays",
-      renter: "Spiderman"
+      owner: "Iron Man",
+      owner_id: 1,
+      renter: "Spiderman",
+      renter_id: 2
     },
     {
       item_id: 2,
       item_name: "Camera",
       item_description: "A really expensive camera. Neat!",
-      owner: "Spiderman",
       price: 20.00,
       category: "Photography",
-      renter: null (no one is renting this)
+      owner_id: 2,
+      renter_id: null, (no one is renting this)
+      owner: "Spiderman",
+      renter: null
     },
     ...
   ]
@@ -99,17 +103,19 @@ Headers:
       item_id: 1,
       item_name: "Television",
       item_description: "New TV. Remote not included",
-      owner: "Iron Man",
       price: 15.00,
-      category: "Displays"
+      category: "Displays",
+      owner_id: 1,
+      owner: "Iron Man"
     },
     {
       item_id: 2,
       item_name: "Camera",
       item_description: "A really expensive camera. Neat!",
-      owner: "Spiderman",
       price: 20.00,
-      category: "Photography"
+      category: "Photography",
+      owner_id: 2,
+      owner: "Spiderman"
     },
     ...
   ]
@@ -129,10 +135,10 @@ Headers:
     item_id: 1,
     item_name: "Television",
     item_description: "A nice TV! Remote not included",
-    owner_id: 1,
-    renter_id: 2,
     price: 15.00,
     category: "Displays"
+    owner_id: 1,
+    renter_id: 2,
   }
   ```
 </details>
@@ -155,9 +161,9 @@ Headers:
     item_id: 1,
     item_name: "Television",
     item_description: "A nice TV! Remote not included",
-    owner_id: 1,
     price: 15.00,
     category: "Displays"
+    owner_id: 1,
   }
   ```
 </details>
