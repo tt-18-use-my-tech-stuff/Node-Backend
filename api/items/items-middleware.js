@@ -14,12 +14,12 @@ const validateItemPost = (req, res, next) => {
 
   for (let i = 0; i < keys.length; i++) {
     const key = keys[i];
-    if (
-      validFields[key].required &&
-      (item[key] === undefined || item[key] === '')
-    ) {
-      next({ status: 400, message: `${key} required.` });
-      return;
+
+    if (validFields[key].required)
+      if (item[key] === undefined || item[key] === '') {
+        next({ status: 400, message: `${key} required.` });
+        return;
+      }
     }
   }
 
