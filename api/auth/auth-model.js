@@ -26,7 +26,7 @@ async function insert(user){
   } else {
     return db('users')
       .insert(user)
-      .returning('*')
+      .returning(['user_id', 'username', 'password', 'email'])
   }
 }
 
