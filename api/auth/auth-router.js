@@ -24,6 +24,7 @@ router.post('/register', checkParamsPresent, checkUsernameUnique, async (req, _,
 })
 
 router.post("/login", checkParamsPresent, checkUserExists, (req, res, next) => {
+  console.log('works', req.user)
   const { password: goodHash } = req.user
   const { password } = req.body
   req.status = 200
@@ -33,6 +34,7 @@ router.post("/login", checkParamsPresent, checkUserExists, (req, res, next) => {
 })
 
 router.use( (req, res) => {
+  console.log('breaks', req.user)
   const { user_id, username, email } = req.user
   const payload = {
     subject: user_id,
