@@ -109,6 +109,17 @@ Headers:
   | :-- | :-- | :-- |
   | item_name | string | (required) |
   | item_description | string | (required) |
+
+  Response: The created item
+  ```
+  {
+    item_id: 1,
+    item_name: "Television",
+    item_description: "A nice TV! Remote not included",
+    owner_id: 1,
+    renter_id: 2
+  }
+  ```
 </details>
 
 ### Edit your own item
