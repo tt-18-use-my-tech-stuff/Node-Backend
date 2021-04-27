@@ -52,11 +52,11 @@ Headers:
 
 ## Items
 
-### Get all items
+### Get available items
 
 <details>
   <summary>
-    GET /api/items (auth)
+    GET /api/items/ (auth)
   </summary>
 
   Response:
@@ -66,15 +66,13 @@ Headers:
       item_id: 1,
       item_name: "Television",
       item_description: "New TV. Remote not included",
-      owner: "Iron Man",
-      renter: "Thor",
+      owner: "Iron Man"
     },
     {
       item_id: 2,
       item_name: "Camera",
       item_description: "A really expensive camera. Neat!",
-      owner: "Spiderman",
-      renter: null (No one is renting this item)
+      owner: "Spiderman"
     },
     ...
   ]
