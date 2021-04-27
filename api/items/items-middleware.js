@@ -1,39 +1,48 @@
-const Item = require("./items-model");
+const Item = require('./items-model');
 
-const validItemTypes = {
-  item_name: "string",
-  item_description: "string",
+const validFields = {
+  item_name: { type: 'string', required: true },
+  item_description: { type: 'string', required: true },
+  price: { type: 'number', required: true },
+  category: { type: 'string', required: true },
 };
 
 const validateItemPost = (req, res, next) => {
+  // check for required fields.
   const item = req.body;
+  const keys = Object.keys(validFields);
 
-  // check required fields
-  if (!item.item_name || !item.item_description) {
-    next({ status: 400, message: `item_name and item_description required.` });
-    return;
+  for (let i = 0; i < keys.length; i++) {
+    const key = keys[i];
+    if (
+      validFields[key].required &&
+      (item[key] === undefined || item[key] === '')
+    ) {
+      next({ status: 400, message: `${key} required.` });
+      return;
+    }
   }
 
   validateItemPut(req, res, next);
 };
 
 const validateItemPut = (req, res, next) => {
+  // check for invalid fields.
   const item = req.body;
   const keys = Object.keys(item);
 
-  // check body for invalid fields
   for (let i = 0; i < keys.length; i++) {
     const key = keys[i];
 
-    if (!validItemTypes[key]) {
+    if (!validFields[key]) {
       next({ status: 400, message: `${key} is not a valid field.` });
       return;
     }
 
-    if (typeof item[key] !== validItemTypes[key]) {
+    if (typeof item[key] !== validFields[key].type) {
       next({
         status: 400,
-        message: `${key} must be of type "${validItemTypes[key]}".`,
+        message: `${key} must be of type "${validFields[key].type}".`,
       });
       return;
     }
@@ -72,7 +81,7 @@ const checkItemIsMine = (req, res, next) => {
       if (item.owner_id === myId) {
         next();
       } else {
-        next({ status: 403, message: "You are not the owner of this item." });
+        next({ status: 403, message: 'You are not the owner of this item.' });
       }
     })
     .catch(next);
