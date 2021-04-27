@@ -100,11 +100,13 @@ describe('DELETE /api/items/', () => {
     let res;
     res = await request(server).get('/api/items').set(headers);
     const originalItems = res.body;
-    await request(server).del(`/api/items/${originalItems[0].item_id}`).set(headers);
+    await request(server)
+      .del(`/api/items/${originalItems[0].item_id}`)
+      .set(headers);
     res = await request(server).get('/api/items').set(headers);
     expect(res.body.length).toBe(originalItems.length - 1);
     originalItems.shift();
-    for(let i = 0; i < originalItems.length; i++) {
+    for (let i = 0; i < originalItems.length; i++) {
       expect(originalItems[i]).toEqual(res.body[i]);
     }
   });
