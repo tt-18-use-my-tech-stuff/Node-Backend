@@ -23,7 +23,7 @@ router.post(
       password: bcrypt.hashSync(password, 8),
       email,
     });
-    
+
     const user = Array.isArray(result) ? result[0] : result;
     req.user = user;
     req.status = 201;
@@ -32,7 +32,6 @@ router.post(
 );
 
 router.post('/login', checkParamsPresent, checkUserExists, (req, res, next) => {
-  // console.log('works', req.user)
   const { password: goodHash } = req.user;
   const { password } = req.body;
   req.status = 200;
@@ -40,10 +39,10 @@ router.post('/login', checkParamsPresent, checkUserExists, (req, res, next) => {
     ? next()
     : next({ status: 401, message: 'invalid credentials' });
 });
-
-router.use((req, res) => {
-  // console.log('breaks', req.user);
-  const { user_id, username, email } = req.user;
+router.use( (req, res, next) => {
+  !req.user && next({ status: 404, message: 'Please make sure you\'re using the right path'})
+  
+  const { user_id, username, email } = req.username
   const payload = {
     subject: user_id,
     username,
