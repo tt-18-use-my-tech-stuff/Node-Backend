@@ -11,7 +11,7 @@ export default function Form() {
             email: Valu.myEmail.trim(),
             password: Valu.myPassword.trim()
         }
-        setUsers(users.concat(newUser))
+        
         setFormValues(initialFormValues)
         console.log('Submitted');
     };
