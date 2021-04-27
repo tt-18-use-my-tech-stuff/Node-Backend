@@ -1,9 +1,9 @@
 
 const Item = require('./items-model');
 
-const validItemFields = {
-	item_name: { type: "string" },
-	item_description: { type: "string" }
+const validItemTypes = {
+	item_name: "string",
+	item_description: "string"
 };
 
 const validateItemPost = (req, res, next) => {
@@ -26,15 +26,15 @@ const validateItemPut = (req, res, next) => {
 	for (let i = 0; i < keys.length; i++) {
 		const key = keys[i];
 
-		if (!validItemFields[key]) {
+		if (!validItemTypes[key]) {
 			next({ status: 400, message: `${key} is not a valid field.` });
 			return;
 		}
 
-		if (typeof item[key] !== validItemFields[key].type) {
+		if (typeof item[key] !== validItemTypes[key]) {
 			next({
 				status: 400,
-				message: `${key} must be of type "${validItemFields[key].type}".`});
+				message: `${key} must be of type "${validItemTypes[key]}".`});
 			return;
 		}
 	}

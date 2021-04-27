@@ -7,7 +7,6 @@ const headers = {};
 
 const user = { username: 'user', password: 'test' };
 const item1 = { item_name: 'Television', item_description: "New TV! It works great!" };
-const item2 = { item_name: 'Bluetooth Speaker', item_description: "A little wear, but still works great" };
 
 beforeAll( async () => {
   await db.migrate.rollback()
@@ -72,6 +71,6 @@ describe('DELETE /api/items/', () => {
 		res = await request(server).get(`/api/items/${item_id}`).set(headers);
 		console.log(res.status, res.body.message);
 		expect(res.status).toBe(404);
-		expect(res.body.message).toBe(`No item found with id ${item_id}`);
+		expect(res.body.message).toBe(`No item found with id ${item_id}.`);
 	});
 });
