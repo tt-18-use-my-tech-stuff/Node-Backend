@@ -66,15 +66,56 @@ Headers:
       item_id: 1,
       item_name: "Television",
       item_description: "New TV. Remote not included",
+      price: 15.00,
+      category: "Displays",
       owner: "Iron Man",
-      renter: "Thor",
+      owner_id: 1,
+      renter: "Spiderman",
+      renter_id: 2
     },
     {
       item_id: 2,
       item_name: "Camera",
       item_description: "A really expensive camera. Neat!",
+      price: 20.00,
+      category: "Photography",
+      owner_id: 2,
+      renter_id: null, (no one is renting this)
       owner: "Spiderman",
-      renter: null (No one is renting this item)
+      renter: null
+    },
+    ...
+  ]
+  ```
+</details>
+
+### Get available items
+
+<details>
+  <summary>
+    GET /api/items/available (auth)
+  </summary>
+
+  Response:
+  ```
+  [
+    {
+      item_id: 1,
+      item_name: "Television",
+      item_description: "New TV. Remote not included",
+      price: 15.00,
+      category: "Displays",
+      owner_id: 1,
+      owner: "Iron Man"
+    },
+    {
+      item_id: 2,
+      item_name: "Camera",
+      item_description: "A really expensive camera. Neat!",
+      price: 20.00,
+      category: "Photography",
+      owner_id: 2,
+      owner: "Spiderman"
     },
     ...
   ]
@@ -94,8 +135,10 @@ Headers:
     item_id: 1,
     item_name: "Television",
     item_description: "A nice TV! Remote not included",
+    price: 15.00,
+    category: "Displays"
     owner_id: 1,
-    renter_id: 2
+    renter_id: 2,
   }
   ```
 </details>
@@ -111,6 +154,8 @@ Headers:
   | :-- | :-- | :-- |
   | item_name | string | (required) |
   | item_description | string | (required) |
+  | price | number | (required) |
+  | category | string | (required) |
 
   Response: The created item
   ```
@@ -118,8 +163,9 @@ Headers:
     item_id: 1,
     item_name: "Television",
     item_description: "A nice TV! Remote not included",
+    price: 15.00,
+    category: "Displays"
     owner_id: 1,
-    renter_id: 2
   }
   ```
 </details>
@@ -143,7 +189,9 @@ Headers:
     item_name: "Television",
     item_description: "Just broke it, but it works still? sort of? Still can't find the remote",
     owner_id: 1,
-    renter_id: 2
+    renter_id: 2,
+    price: 5.00,
+    category: "Displays"
   }
   ```
 </details>
@@ -296,12 +344,16 @@ Headers:
       name: "Television",
       item_description: "New TV. Remote not included",
       renter: "Thor",
+      price: 15.00,
+      category: "Displays"
     },
     {
       item_id: 4,
       item_name: "Speakers",
       item_description: "Powered bookshelf speakers.".
-      renter: null (No one is renting this item)
+      renter: null (No one is renting this item),
+      price: 11.00,
+      category: "Audio"
     }
     ...
   ]
@@ -318,8 +370,8 @@ Headers:
   Response:
   ```
   [
-    { request_id: 1, item: "Microphone", owner: "Superman", status: "Pending" },
-    { request_id: 2, item: "Headphones", owner: "Batman", status: "Accepted" },
+    { request_id: 1, item: "Microphone", owner: "Superman", status: "pending" },
+    { request_id: 2, item: "Headphones", owner: "Batman", status: "accepted" },
     ...
   ]
   ```
