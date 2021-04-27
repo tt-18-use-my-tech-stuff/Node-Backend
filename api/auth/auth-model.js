@@ -20,8 +20,14 @@ function getByUsername(username){
 }
 
 async function insert(user){
-  const [id] = await db('users').insert(user)
-  return getById(id)
+  if(process.env.NODE_ENV !== 'production'){
+    const [id] = await db('users').insert(user)
+    return getById(id)
+  } else {
+    return db('users')
+      .insert(user)
+      .returning(['user_id', 'username', 'password', 'email'])
+  }
 }
 
 function del(user_id){

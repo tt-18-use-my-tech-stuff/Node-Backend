@@ -14,6 +14,10 @@ exports.up = function (knex) {
                 .notNullable()
             tbl.text('item_description')
                 .notNullable()
+            tbl.decimal('price', 2)
+                // .notNullable()
+            tbl.string('category', 256)
+                // .notNullable()
             tbl.integer('owner_id')
                 .unsigned()
                 .references('users.user_id')
@@ -35,6 +39,7 @@ exports.up = function (knex) {
                 .notNullable()
                 .onDelete('CASCADE')
                 .onUpdate('CASCADE')
+            tbl.string('status', 9)
         })
 }
 
