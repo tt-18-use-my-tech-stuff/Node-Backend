@@ -49,12 +49,6 @@ const getAvailable = async () => {
 const getBy = async (filter) => {
   const acceptedRequestIds = await getAcceptedRequests('request_id');
 
-  // This freaks out if you only put item_id because its ambiguous
-  if (filter.item_id !== undefined) {
-    filter['i.item_id'] = filter.item_id;
-    delete filter.item_id;
-  }
-
   return db('items as i')
     .where(filter)
     .leftJoin('requests as r', function () {
@@ -76,7 +70,7 @@ const getBy = async (filter) => {
 };
 
 const getById = (item_id) => {
-  getBy({ item_id });
+  getBy({ 'i.item_id': item_id });
 };
 
 const insert = async (item) => {
