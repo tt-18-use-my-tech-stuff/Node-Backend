@@ -1,8 +1,6 @@
 const db = require('../../data/dbconfig');
 
-const getAcceptedRequests = async (field) => {
-  return db('requests').where({ status: 'accepted' }).pluck(field);
-};
+const getAcceptedRequests = async (field) => db('requests').where({ status: 'accepted' }).pluck(field);
 
 const get = async () => {
   const acceptedRequestIds = await getAcceptedRequests('request_id');
@@ -69,9 +67,7 @@ const getBy = async (filter) => {
     .first();
 };
 
-const getById = (item_id) => {
-  return getBy({ 'i.item_id': item_id });
-};
+const getById = (item_id) => getBy({ 'i.item_id': item_id });
 
 const insert = async (item) => {
   console.log('NODE enviroment', process.env.NODE_ENV)
