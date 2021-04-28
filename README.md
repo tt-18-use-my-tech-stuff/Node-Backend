@@ -230,7 +230,11 @@ Headers:
     item_id: 2,
     owner_id: 3,
     renter_id: 4,
-    status: "pending"
+    status: "pending",
+    item_name: "A Real Keyboard",
+    item_description: "Made of cardboard. Not a real keyboard",
+    price: 8,
+    category: "Office"
   }
   ```
 </details>
@@ -249,7 +253,11 @@ Headers:
     item_id: 2,
     owner_id: 3,
     renter_id: 4,
-    status: <Status as a string: "pending", "accepted", "rejected", or "completed">
+    status: <Status as a string: "pending", "accepted", "rejected", or "completed">,
+    item_name: "A Real Keyboard",
+    item_description: "Made of cardboard. Not a real keyboard",
+    price: 8,
+    category: "Office"
   }
   ```
 </details>
@@ -258,7 +266,7 @@ Headers:
 
 <details>
   <summary>
-    PUT /api/requests/:request_id (auth)
+    PUT /api/requests/:request_id/respond (auth)
   </summary>
   
   Can only be performed by the owner of the item.
@@ -266,7 +274,7 @@ Headers:
   Body:
   | Parameter | Type | Notes |
   | :-- | :-- | :-- |
-  | accepted | boolean | Accept or decline a request. (required) |
+  | response | string | (required) Must be "accepted", "declined", or "completed". Can only accept or decline requests with status "pending". Can only accept requests that haven't been accepted already. Can only complete requests with status "accepted".  |
   
   Response: Request with new status
   ```
@@ -275,7 +283,11 @@ Headers:
     item_id: 2,
     owner_id: 3,
     renter_id: 4,
-    status: <Status as a string: "accepted" or "rejected">
+    status: <Status as a string: "accepted", "rejected", or "completed">,
+    item_name: "A Real Keyboard",
+    item_description: "Made of cardboard. Not a real keyboard",
+    price: 8,
+    category: "Office"
   }
   ```
 </details>

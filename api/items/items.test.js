@@ -79,6 +79,7 @@ describe('PUT /api/items/', () => {
       .put(`/api/items/${item_id}`)
       .set(headers)
       .send({ item_description: 'nvm, not new anymore' });
+    console.log(res.status, res.body.message);
     expect(res.status).toBe(200);
     res = await request(server).get(`/api/items/${item_id}`).set(headers);
     expect(res.body.item_description).toBe('nvm, not new anymore');
