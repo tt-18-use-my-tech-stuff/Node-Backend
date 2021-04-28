@@ -40,9 +40,9 @@ router.post('/', validateItemPost, attachOwnerId, (req, res, next) => {
 
 router.put(
   '/:item_id',
-  // checkItemIdExists,
+  checkItemIdExists,
   validateItemPut,
-  // checkItemIsMine,
+  checkItemIsMine,
   (req, res, next) => {
     Item.update(req.params.item_id, req.body)
       .then((updatedItem) => {
@@ -54,8 +54,8 @@ router.put(
 
 router.delete(
   '/:item_id',
-  // checkItemIdExists,
-  // checkItemIsMine,
+  checkItemIdExists,
+  checkItemIsMine,
   (req, res, next) => {
     Item.del(req.params.item_id)
       .then((deletedItemId) => {
