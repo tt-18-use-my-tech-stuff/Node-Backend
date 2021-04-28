@@ -146,9 +146,9 @@ describe('/api/items', () => {
       let res
       res = await axios.post(base_url + path, testItem, headers).catch( err => console.log(147, err.response))
       const item_id = res.data.item_id
-      res = await axios.put(base_url + path + item_id, { item_description: 'nvm, not new anymore' }, headers).catch( err => console.log(149, err.response))
+      res = await axios.put(base_url + path + '/' + item_id, { item_description: 'nvm, not new anymore' }, headers).catch( err => console.log(149, err.response))
       expect(res.status).toBe(200)
-      res = await axios.get(base_url + path + item_id, headers).catch( err => console.log(151, err.response))
+      res = await axios.get(base_url + path + '/' + item_id, headers).catch( err => console.log(151, err.response))
       expect(res.data.item_description).toBe('nvm, not new anymore')
     })
   })
@@ -158,7 +158,7 @@ describe('/api/items', () => {
       let res
       res = await axios.post(base_url + path, testItem, headers)
       const item_id = res.data.item_id
-      res = await axios.delete(base_url + path + item_id, headers).catch( err => console.log(161, err.response))
+      res = await axios.delete(base_url + path + '/' + item_id, headers).catch( err => console.log(161, err.response))
       expect(res.status).toBe(200)
       res = await axios.post(base_url + path).get(`/api/items/${item_id}`, headers).catch( err => console.log(163, err.response))
       expect(res.status).toBe(404)

@@ -97,7 +97,7 @@ const insert = async (item) => {
   // const result = await db('items').insert(item);
   // const id = Array.isArray(result) ? result[0] : result;
   // return getById(id);
-  
+
   // return db('items')
   //   .insert(item)
   //   .returning([
@@ -111,8 +111,20 @@ const insert = async (item) => {
 };
 
 const update = async (item_id, item) => {
-  await db('items').where({ item_id }).update(item);
-  return getById(item_id);
+  if(process.env.NODE_ENV !== 'production'){
+    await db('items').where({ item_id }).update(item);
+    return getById(item_id);
+  } else {
+    return db('items').where({ item_id }).update(item)
+      .returning([
+        'item_id',
+        'item_name',
+        'item_description',
+        'price',
+        'category',
+        'owner_id',
+      ])
+  }
 };
 
 const del = async (item_id) => {
