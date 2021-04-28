@@ -13,7 +13,7 @@ const get = () => {
       'item_description',
       'price',
       'category',
-    ])
+    ]);
 };
 
 const getBy = (filter) => {
@@ -35,7 +35,7 @@ const getBy = (filter) => {
 };
 
 const getById = (request_id) => {
-  return getBy({ 'request_id': request_id });
+  return getBy({ request_id: request_id });
 };
 
 const insert = async (request) => {
