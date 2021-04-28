@@ -1,6 +1,7 @@
 const db = require('../../data/dbconfig');
 
-const getAcceptedRequests = async (field) => db('requests').where({ status: 'accepted' }).pluck(field);
+const getAcceptedRequests = async (field) =>
+  db('requests').where({ status: 'accepted' }).pluck(field);
 
 const get = async () => {
   const acceptedRequestIds = await getAcceptedRequests('request_id');
@@ -70,10 +71,9 @@ const getBy = async (filter) => {
 const getById = (item_id) => getBy({ 'i.item_id': item_id });
 
 const insert = async (item) => {
-  console.log('NODE enviroment', process.env.NODE_ENV)
-  if(process.env.NODE_ENV !== 'production'){
-    const [id] = await db('items').insert(item)
-    return getById(id)
+  if (process.env.NODE_ENV !== 'production') {
+    const [id] = await db('items').insert(item);
+    return getById(id);
   } else {
     const newItems = await db('items')
       .insert(item)
@@ -84,18 +84,19 @@ const insert = async (item) => {
         'price',
         'category',
         'owner_id',
-      ])
-    return newItems[0]
+      ]);
+    return newItems[0];
   }
 };
 
 const update = async (item_id, item) => {
-  console.log('NODE enviroment', process.env.NODE_ENV)
-  if(process.env.NODE_ENV !== 'production'){
+  if (process.env.NODE_ENV !== 'production') {
     await db('items').where({ item_id }).update(item);
     return getById(item_id);
   } else {
-    const updatedItems = await db('items').where({ item_id }).update(item)
+    const updatedItems = await db('items')
+      .where({ item_id })
+      .update(item)
       .returning([
         'item_id',
         'item_name',
@@ -103,8 +104,8 @@ const update = async (item_id, item) => {
         'price',
         'category',
         'owner_id',
-      ])
-    return updatedItems[0]
+      ]);
+    return updatedItems[0];
   }
 };
 
