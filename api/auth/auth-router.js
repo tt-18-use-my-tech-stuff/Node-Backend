@@ -26,7 +26,6 @@ router.post('/register', checkParamsPresent, checkUsernameUnique, async (req, _,
 })
 
 router.post("/login", checkParamsPresent, checkUserExists, (req, res, next) => {
-  console.log('works', req.user)
   const { password: goodHash } = req.user
   const { password } = req.body
   req.status = 200
