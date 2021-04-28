@@ -92,7 +92,7 @@ const insert = async (item) => {
         'category',
         'owner_id',
       ])
-    return [newItems]
+    return newItems[0]
   }
 
   // const result = await db('items').insert(item);
