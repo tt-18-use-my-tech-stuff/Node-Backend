@@ -266,7 +266,7 @@ Headers:
 
 <details>
   <summary>
-    PUT /api/requests/respond/:request_id (auth)
+    PUT /api/requests/:request_id/respond (auth)
   </summary>
   
   Can only be performed by the owner of the item.
