@@ -7,14 +7,14 @@ const get = async () => {
   const acceptedRequestIds = getAcceptedRequests('request_id');
 
   return db('items as i')
-    .leftJoin('requests as r', function () {
-      this.on('i.item_id', 'r.item_id').onIn(
-        'r.request_id',
+    .leftJoin('requests as req', function () {
+      this.on('i.item_id', 'req.item_id').onIn(
+        'req.request_id',
         acceptedRequestIds
       );
     })
-    .leftJoin('users as o', 'i.owner_id', 'o.user_id')
-    .leftJoin('users as r', 'r.renter_id', 'r.user_id')
+    .leftJoin('users as own', 'i.owner_id', 'own.user_id')
+    .leftJoin('users as ren', 'req.renter_id', 'ren.user_id')
     .select(
       'i.item_id',
       'item_name',
@@ -23,8 +23,8 @@ const get = async () => {
       'category',
       'owner_id',
       'renter_id',
-      'o.username as owner',
-      'r.username as renter'
+      'own.username as owner',
+      'ren.username as renter'
     );
 };
 
@@ -33,7 +33,7 @@ const getAvailable = async () => {
 
   return db('items as i')
     .whereNotIn('i.item_id', acceptedItemIds)
-    .leftJoin('users as o', 'i.owner_id', 'o.user_id')
+    .leftJoin('users as own', 'i.owner_id', 'o.user_id')
     .select(
       'item_id',
       'item_name',
