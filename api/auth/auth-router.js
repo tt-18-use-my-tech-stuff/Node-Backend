@@ -31,7 +31,7 @@ router.post("/login", checkParamsPresent, checkUserExists, (req, res, next) => {
   req.status = 200
   bcrypt.compareSync(password, goodHash)
     ? next()
-    : next({ status: 401, message: 'invalid credentials'})
+    : next({status: 401, message: 'invalid credentials'})
 })
 
 router.use( (req, res, next) => {
