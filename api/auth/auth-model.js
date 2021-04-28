@@ -15,7 +15,7 @@ function getById(user_id){
 
 function getByUsername(username){
   return db('users')
-    .where({username})
+    .where('username', 'like', username)
     .first()
 }
 
