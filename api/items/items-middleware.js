@@ -70,7 +70,7 @@ const checkItemIdExists = (req, res, next) => {
       }
     })
     .catch(err => {
-      console.log('checkItemIsMine middleware')
+      console.log('checkItemIdExists middleware')
       next(err)
     });
 };
