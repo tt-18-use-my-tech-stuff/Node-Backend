@@ -20,7 +20,7 @@ router.get('/:request_id', checkRequestExists, (req, res) => {
 
 router.post('/', checkRequestPost, attachRenterId, (req, res, next) => {
   const request = req.body;
-  Request.insert(request)
+  Request.insert({...request, status: 'pending'})
     .then((newRequest) => {
       res.status(201).json(newRequest);
     })
