@@ -274,7 +274,7 @@ Headers:
   Body:
   | Parameter | Type | Notes |
   | :-- | :-- | :-- |
-  | accepted | boolean | (required) Accept or decline a request. Only works if the request has status "pending". Does not work if the item is already being rented out. |
+  | action | string | (required) Must be "accept", "decline", or "cancel". Can only accept or decline items with status "pending". Can only accept items that haven't been accepted already. Can only cancel items with status "accepted".  |
   
   Response: Request with new status
   ```
