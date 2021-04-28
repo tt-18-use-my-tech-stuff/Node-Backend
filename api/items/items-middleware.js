@@ -69,7 +69,10 @@ const checkItemIdExists = (req, res, next) => {
         next({ status: 404, message: `No item found with id ${item_id}.` });
       }
     })
-    .catch(next);
+    .catch(err => {
+      console.log('checkItemIdExists middleware')
+      next(err)
+    });
 };
 
 const checkItemIsMine = (req, res, next) => {
@@ -84,7 +87,10 @@ const checkItemIsMine = (req, res, next) => {
         next({ status: 403, message: 'You are not the owner of this item.' });
       }
     })
-    .catch(next);
+    .catch(err => {
+      console.log('checkItemIsMine middleware')
+      next(err)
+    });
 };
 
 module.exports = {

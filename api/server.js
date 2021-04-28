@@ -18,8 +18,8 @@ server.use(cors());
 //Initialize routers here
 server.use('/api/auth', authRouter)
 server.use("/api/items", accountRequired, itemsRouter);
-server.use("/api/account", accountRouter)
-server.use('/api/requests', requestsRouter)
+server.use("/api/account", accountRequired, accountRouter)
+server.use('/api/requests', accountRequired, requestsRouter)
 
 server.use((err, req, res, next) => { // eslint-disable-line
   res.status(err.status || 500).json({

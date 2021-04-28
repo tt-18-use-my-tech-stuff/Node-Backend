@@ -53,6 +53,7 @@ const getBy = async (filter) => {
     filter['i.item_id'] = filter.item_id;
     delete filter.item_id;
   }
+  console.log(filter)
 
   return db('items as i')
     .where(filter)
@@ -77,9 +78,28 @@ const getBy = async (filter) => {
 const getById = (item_id) => getBy({ item_id });
 
 const insert = async (item) => {
-  const result = await db('items').insert(item);
-  const id = Array.isArray(result) ? result[0] : result;
-  return getById(id);
+  console.log('NODE enviroment', process.env.NODE_ENV)
+  if(process.env.NODE_ENV !== 'production'){
+    const [id] = await db('items').insert(item)
+    return getById(id)
+  } else {
+    const newItems = await db('items')
+      .insert(item)
+      .returning([
+        'item_id',
+        'item_name',
+        'item_description',
+        'price',
+        'category',
+        'owner_id',
+      ])
+    return newItems[0]
+  }
+
+  // const result = await db('items').insert(item);
+  // const id = Array.isArray(result) ? result[0] : result;
+  // return getById(id);
+
   // return db('items')
   //   .insert(item)
   //   .returning([
@@ -93,8 +113,22 @@ const insert = async (item) => {
 };
 
 const update = async (item_id, item) => {
-  await db('items').where({ item_id }).update(item);
-  return getById(item_id);
+  console.log('NODE enviroment', process.env.NODE_ENV)
+  if(process.env.NODE_ENV !== 'production'){
+    await db('items').where({ item_id }).update(item);
+    return getById(item_id);
+  } else {
+    const updatedItems = await db('items').where({ item_id }).update(item)
+      .returning([
+        'item_id',
+        'item_name',
+        'item_description',
+        'price',
+        'category',
+        'owner_id',
+      ])
+    return updatedItems[0]
+  }
 };
 
 const del = async (item_id) => {

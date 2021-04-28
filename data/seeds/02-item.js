@@ -6,5 +6,6 @@ exports.seed = async knex => {
     { item_name: 'Headphones', item_description: "Guaranteed 88% germ-free!", owner_id: 1, price: 7.50, category: 'Audio' },
     { item_name: 'A Real Keyboard', item_description: "Made of cardboard. Not a real keyboard", owner_id: 2, price: 8.00, category: 'Office' },
     { item_name: 'Monitor', item_description: "Very small", owner_id: 1, price: 10.99, category: 'Displays' },
+    { item_name: 'Second Monitor', item_description: "Very small", owner_id: 1, price: 10.99, category: 'Displays' },
   ]);
 }
