@@ -14,7 +14,7 @@ exports.up = function (knex) {
                 .notNullable()
             tbl.text('item_description')
                 .notNullable()
-            tbl.decimal('price', 2)
+            tbl.decimal('price', 8, 2)
                 .notNullable()
             tbl.string('category', 256)
                 .notNullable()
