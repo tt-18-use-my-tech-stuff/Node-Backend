@@ -84,7 +84,10 @@ const checkItemIsMine = (req, res, next) => {
         next({ status: 403, message: 'You are not the owner of this item.' });
       }
     })
-    .catch(next);
+    .catch(err => {
+      console.log('checkItemIsMine middleware')
+      next(err)
+    });
 };
 
 module.exports = {
