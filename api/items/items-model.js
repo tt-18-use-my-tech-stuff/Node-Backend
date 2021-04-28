@@ -1,7 +1,7 @@
 const db = require('../../data/dbconfig');
 
 const getAcceptedRequests = async (field) => {
-  db('requests').where({ status: 'accepted' }).pluck(field);
+  return db('requests').where({ status: 'accepted' }).pluck(field);
 };
 
 const get = async () => {
