@@ -117,7 +117,7 @@ const update = async (item_id, item) => {
     await db('items').where({ item_id }).update(item);
     return getById(item_id);
   } else {
-    return db('items').where({ item_id }).update(item)
+    const updatedItems = await db('items').where({ item_id }).update(item)
       .returning([
         'item_id',
         'item_name',
@@ -126,6 +126,7 @@ const update = async (item_id, item) => {
         'category',
         'owner_id',
       ])
+    return updatedItems[0]
   }
 };
 
