@@ -5,16 +5,8 @@ const {
   checkRequestExists,
   checkRequestPost,
   checkResponse,
+  attachRenterId
 } = require('./requests-middleware.js');
-
-router.post('/', checkRequestPost, (req, res, next) => {
-  const request = req.body;
-  Request.insert(request)
-    .then((newRequest) => {
-      res.status(201).json(newRequest);
-    })
-    .catch(next);
-});
 
 router.get('/', (req, res) => {
   // really just here for testing
@@ -23,6 +15,15 @@ router.get('/', (req, res) => {
 
 router.get('/:request_id', checkRequestExists, (req, res) => {
   res.status(200).json(req.request);
+});
+
+router.post('/', checkRequestPost, attachRenterId, (req, res, next) => {
+  const request = req.body;
+  Request.insert(request)
+    .then((newRequest) => {
+      res.status(201).json(newRequest);
+    })
+    .catch(next);
 });
 
 router.put(
