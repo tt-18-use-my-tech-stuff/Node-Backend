@@ -81,7 +81,7 @@ describe('/api/auth routes', () =>{
   })
 })
 
-describe.only('/api/items', () => {
+describe('/api/items', () => {
 
   let headers = {}
   const path = '/items'
@@ -96,7 +96,6 @@ describe.only('/api/items', () => {
   beforeAll(async () => {
     let res = await axios.post(base_url + '/auth/login', user)
     headers = { headers: { authorization: res.data.token } }
-    console.log(headers)
   })
 
   describe('POST /', () => {
@@ -131,13 +130,13 @@ describe.only('/api/items', () => {
           ...testItem,
           extraField: 'asdf',
         }, headers)
-        .catch( err => err.respone)
+        .catch( err => err.response)
       expect(res.status).toBe(400)
       expect(res.data.message).toBe('extraField is not a valid field.')
     })
   
     it('accepts properly formatted item', async () => {
-      let res = await axios.post(base_url + path, testItem, headers)
+      let res = await axios.post(base_url + path, testItem, headers).catch( err => console.log(139, err.response))
       expect(res.status).toBe(201)
     })
   })
@@ -145,11 +144,11 @@ describe.only('/api/items', () => {
   describe('PUT /', () => {
     it('can edit items', async () => {
       let res
-      res = await axios.post(base_url + path, testItem, headers)
+      res = await axios.post(base_url + path, testItem, headers).catch( err => console.log(147, err.response))
       const item_id = res.data.item_id
-      res = await axios.put(base_url + path + item_id, { item_description: 'nvm, not new anymore' }, headers)
+      res = await axios.put(base_url + path + item_id, { item_description: 'nvm, not new anymore' }, headers).catch( err => console.log(149, err.response))
       expect(res.status).toBe(200)
-      res = await axios.get(base_url + path + item_id, headers)
+      res = await axios.get(base_url + path + item_id, headers).catch( err => console.log(151, err.response))
       expect(res.data.item_description).toBe('nvm, not new anymore')
     })
   })
@@ -159,9 +158,9 @@ describe.only('/api/items', () => {
       let res
       res = await axios.post(base_url + path, testItem, headers)
       const item_id = res.data.item_id
-      res = await axios.delete(base_url + path + item_id, headers)
+      res = await axios.delete(base_url + path + item_id, headers).catch( err => console.log(161, err.response))
       expect(res.status).toBe(200)
-      res = await axios.post(base_url + path).get(`/api/items/${item_id}`, headers)
+      res = await axios.post(base_url + path).get(`/api/items/${item_id}`, headers).catch( err => console.log(163, err.response))
       expect(res.status).toBe(404)
       expect(res.data.message).toBe(`No item found with id ${item_id}.`)
     })

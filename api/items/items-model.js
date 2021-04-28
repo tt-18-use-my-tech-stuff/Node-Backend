@@ -77,9 +77,27 @@ const getBy = async (filter) => {
 const getById = (item_id) => getBy({ item_id });
 
 const insert = async (item) => {
-  const result = await db('items').insert(item);
-  const id = Array.isArray(result) ? result[0] : result;
-  return getById(id);
+
+  if(process.env.NODE_ENV !== 'production'){
+    const [id] = await db('items').insert(item)
+    return getById(id)
+  } else {
+    return db('items')
+      .insert(item)
+      .returning([
+        'item_id',
+        'item_name',
+        'item_description',
+        'price',
+        'category',
+        'owner_id',
+      ])
+  }
+
+  // const result = await db('items').insert(item);
+  // const id = Array.isArray(result) ? result[0] : result;
+  // return getById(id);
+  
   // return db('items')
   //   .insert(item)
   //   .returning([
