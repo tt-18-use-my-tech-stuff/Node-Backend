@@ -43,20 +43,10 @@ const insert = async (request) => {
     const [id] = await db('requests').insert(request);
     return getById(id);
   } else {
-    const newRequests = await db('requests')
+    const [newRequestID] = await db('requests')
       .insert(request)
-      .returning([
-        'request_id',
-        'item_id',
-        'owner_id',
-        'renter_id',
-        'status',
-        'item_name',
-        'item_description',
-        'price',
-        'category',
-      ]);
-    return newRequests[0];
+      .returning('request_id');
+    return getById(newRequestID);
   }
 };
 
