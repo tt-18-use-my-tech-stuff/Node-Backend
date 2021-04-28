@@ -2,6 +2,7 @@ const router = require('express').Router();
 const {accountRequired} = require("../middleware/restricted.js");
 const Accounts = require("./account-model.js");
 const {checkParamsExist} = require("./account-mw.js")
+const bcrypt = require("bcryptjs")
 
 router.get("/", accountRequired, (req,res,next)=>{
     const id = req.decodedToken.subject;
@@ -14,7 +15,9 @@ router.get("/", accountRequired, (req,res,next)=>{
 
 router.put("/", accountRequired, checkParamsExist, (req,res,next)=>{
     const id = req.decodedToken.subject;
-    Accounts.update(id, req.body)
+    const user = {username:req.body.username, password:bcrypt.hashSync(req.body.password, 8)}
+    req.body.email ? user.email = req.body.email : {}
+    Accounts.update(id, user)
     .then(account=>{
         res.status(200).json(account);
     })
