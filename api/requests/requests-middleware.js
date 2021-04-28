@@ -15,17 +15,17 @@ const checkRequestExists = (req, res, next) => {
 }
 
 const checkRequestPost = (req, res, next) => {
-  const request = req.body;
-  if (!request.item_id) {
+  const { item_id } = req.body;
+  if (!item_id) {
     next({ status: 400, message: `item_id is required.` });
     return;
   }
-	Item.getById(req.body.id).then(item => {
+	Item.getById(item_id).then(item => {
 		if (item) {
 			next();
 		}
 		else {
-			next({ status: 404, message: `No item found with id ${req.body.id}` });
+			next({ status: 404, message: `No item found with id ${item_id}` });
 		}
 	})
 	.catch(next);
@@ -72,8 +72,15 @@ const checkResponse = (req, res, next) => {
 	}
 }
 
+const attachRenterId = (req, res, next) => {
+	const renter_id = req.decodedToken.subject;
+	req.body.renter_id = renter_id;
+	next();
+}
+
 module.exports = {
 	checkRequestExists,
   checkRequestPost,
-	checkResponse
+	checkResponse,
+	attachRenterId
 };
