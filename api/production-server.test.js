@@ -157,7 +157,8 @@ describe('/api/items', () => {
     it('can delete items', async () => {
       let res
       res = await axios.post(base_url + path, testItem, headers)
-      const item_id = res.data.item_id
+      console.log('delete post res', res)
+      const item_id = res.data.message.item_id
       res = await axios.delete(base_url + path + '/' + item_id, headers).catch( err => console.log(161, err.response))
       expect(res.status).toBe(200)
       res = await axios.post(base_url + path).get(`/api/items/${item_id}`, headers).catch( err => console.log(163, err.response))

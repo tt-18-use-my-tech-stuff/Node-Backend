@@ -82,7 +82,7 @@ const insert = async (item) => {
     const [id] = await db('items').insert(item)
     return getById(id)
   } else {
-    return db('items')
+    const newItems = await db('items')
       .insert(item)
       .returning([
         'item_id',
@@ -92,6 +92,7 @@ const insert = async (item) => {
         'category',
         'owner_id',
       ])
+    return [newItems]
   }
 
   // const result = await db('items').insert(item);
