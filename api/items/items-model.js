@@ -53,6 +53,7 @@ const getBy = async (filter) => {
     filter['i.item_id'] = filter.item_id;
     delete filter.item_id;
   }
+  console.log(filter)
 
   return db('items as i')
     .where(filter)
