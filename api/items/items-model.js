@@ -34,7 +34,7 @@ const getAvailable = async () => {
 
   return db('items as i')
     .whereNotIn('i.item_id', acceptedItemIds)
-    .leftJoin('users as own', 'i.owner_id', 'o.user_id')
+    .leftJoin('users as o', 'i.owner_id', 'o.user_id')
     .select(
       'item_id',
       'item_name',
