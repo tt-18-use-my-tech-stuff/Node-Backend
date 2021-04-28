@@ -70,18 +70,46 @@ const getBy = async (filter) => {
 };
 
 const getById = (item_id) => {
-  getBy({ 'i.item_id': item_id });
+  return getBy({ 'i.item_id': item_id });
 };
 
 const insert = async (item) => {
-  const result = await db('items').insert(item);
-  const id = Array.isArray(result) ? result[0] : result;
-  return getById(id);
+  console.log('NODE enviroment', process.env.NODE_ENV)
+  if(process.env.NODE_ENV !== 'production'){
+    const [id] = await db('items').insert(item)
+    return getById(id)
+  } else {
+    const newItems = await db('items')
+      .insert(item)
+      .returning([
+        'item_id',
+        'item_name',
+        'item_description',
+        'price',
+        'category',
+        'owner_id',
+      ])
+    return newItems[0]
+  }
 };
 
 const update = async (item_id, item) => {
-  await db('items').where({ item_id }).update(item);
-  return getById(item_id);
+  console.log('NODE enviroment', process.env.NODE_ENV)
+  if(process.env.NODE_ENV !== 'production'){
+    await db('items').where({ item_id }).update(item);
+    return getById(item_id);
+  } else {
+    const updatedItems = await db('items').where({ item_id }).update(item)
+      .returning([
+        'item_id',
+        'item_name',
+        'item_description',
+        'price',
+        'category',
+        'owner_id',
+      ])
+    return updatedItems[0]
+  }
 };
 
 const del = async (item_id) => {
