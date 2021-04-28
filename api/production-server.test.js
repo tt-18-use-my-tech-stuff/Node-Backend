@@ -81,7 +81,7 @@ describe('/api/auth routes', () =>{
   })
 })
 
-describe('/api/items', () => {
+describe.only('/api/items', () => {
 
   let headers = {}
   const path = '/items'
@@ -159,9 +159,9 @@ describe('/api/items', () => {
       res = await axios.post(base_url + path, testItem, headers)
       console.log('delete post res', res)
       const item_id = res.data.item_id
-      res = await axios.delete(base_url + path + '/' + item_id, headers).catch( err => console.log(161, err.response))
+      res = await axios.delete(base_url + path + '/' + item_id, headers).catch( err => console.log(162, err.response))
       expect(res.status).toBe(200)
-      res = await axios.post(base_url + path).get(`/api/items/${item_id}`, headers).catch( err => console.log(163, err.response))
+      res = await axios.post(base_url + path).get(`/api/items/${item_id}`, headers).catch( err => console.log(164, err.response))
       expect(res.status).toBe(404)
       expect(res.data.message).toBe(`No item found with id ${item_id}.`)
     })

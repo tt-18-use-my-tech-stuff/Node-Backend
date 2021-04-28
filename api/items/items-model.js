@@ -56,7 +56,7 @@ const getBy = async (filter) => {
   console.log(filter)
 
   return db('items as i')
-    .where(filter)
+    .where({ 'i.item_id': 90})
     .leftJoin('requests as r', function () {
       this.on('i.item_id', 'r.item_id').onIn(
         'r.request_id',
