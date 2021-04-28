@@ -1,10 +1,11 @@
 const db = require('../../data/dbconfig');
 
-const getAcceptedRequests = async (field) =>
+const getAcceptedRequests = async (field) => {
   db('requests').where({ status: 'accepted' }).pluck(field);
+};
 
 const get = async () => {
-  const acceptedRequestIds = getAcceptedRequests('request_id');
+  const acceptedRequestIds = await getAcceptedRequests('request_id');
 
   return db('items as i')
     .leftJoin('requests as req', function () {
@@ -29,7 +30,7 @@ const get = async () => {
 };
 
 const getAvailable = async () => {
-  const acceptedItemIds = getAcceptedRequests('item_id');
+  const acceptedItemIds = await getAcceptedRequests('item_id');
 
   return db('items as i')
     .whereNotIn('i.item_id', acceptedItemIds)
@@ -46,7 +47,7 @@ const getAvailable = async () => {
 };
 
 const getBy = async (filter) => {
-  const acceptedRequestIds = getAcceptedRequests('request_id');
+  const acceptedRequestIds = await getAcceptedRequests('request_id');
 
   // This freaks out if you only put item_id because its ambiguous
   if (filter.item_id !== undefined) {
@@ -74,22 +75,14 @@ const getBy = async (filter) => {
     .first();
 };
 
-const getById = (item_id) => getBy({ item_id });
+const getById = (item_id) => {
+  getBy({ item_id });
+};
 
 const insert = async (item) => {
   const result = await db('items').insert(item);
   const id = Array.isArray(result) ? result[0] : result;
   return getById(id);
-  // return db('items')
-  //   .insert(item)
-  //   .returning([
-  //     'i.item_id',
-  //     'item_name',
-  //     'item_description',
-  //     'price',
-  //     'category',
-  //     'owner_id',
-  //   ]);
 };
 
 const update = async (item_id, item) => {
