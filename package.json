@@ -2,7 +2,7 @@
   "name": "use-my-tech-stuff-tt18",
   "version": "1.0.0",
   "scripts": {
-    "test": "cross-env NODE_ENV=testing jest --watchAll --verbose --runInBand",
+    "test": "cross-env NODE_ENV=testing jest --watch --verbose --runInBand",
     "start": "node index.js",
     "server": "nodemon index.js",
     "migrate": "knex migrate:latest",
@@ -23,6 +23,7 @@
   },
   "devDependencies": {
     "@types/jest": "^26.0.22",
+    "axios": "^0.21.1",
     "cross-env": "^7.0.3",
     "eslint": "^7.22.0",
     "jest": "^26.6.3",
