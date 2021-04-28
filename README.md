@@ -283,7 +283,7 @@ Headers:
     item_id: 2,
     owner_id: 3,
     renter_id: 4,
-    status: <Status as a string: "pending", "accepted", "rejected", or "completed">,
+    status: <Status as a string: "accepted", "rejected", or "completed">,
     item_name: "A Real Keyboard",
     item_description: "Made of cardboard. Not a real keyboard",
     price: 8,
