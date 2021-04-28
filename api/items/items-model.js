@@ -77,7 +77,7 @@ const getBy = async (filter) => {
 const getById = (item_id) => getBy({ item_id });
 
 const insert = async (item) => {
-
+  console.log('NODE enviroment', process.env.NODE_ENV)
   if(process.env.NODE_ENV !== 'production'){
     const [id] = await db('items').insert(item)
     return getById(id)
@@ -111,6 +111,7 @@ const insert = async (item) => {
 };
 
 const update = async (item_id, item) => {
+  console.log('NODE enviroment', process.env.NODE_ENV)
   if(process.env.NODE_ENV !== 'production'){
     await db('items').where({ item_id }).update(item);
     return getById(item_id);
