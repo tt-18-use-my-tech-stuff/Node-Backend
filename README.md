@@ -274,7 +274,7 @@ Headers:
   Body:
   | Parameter | Type | Notes |
   | :-- | :-- | :-- |
-  | action | string | (required) Must be "accept", "decline", or "cancel". Can only accept or decline items with status "pending". Can only accept items that haven't been accepted already. Can only cancel items with status "accepted".  |
+  | response | string | (required) Must be "accepted", "declined", or "completed". Can only accept or decline requests with status "pending". Can only accept requests that haven't been accepted already. Can only complete requests with status "accepted".  |
   
   Response: Request with new status
   ```
