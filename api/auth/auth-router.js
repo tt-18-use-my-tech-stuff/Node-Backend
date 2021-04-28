@@ -14,11 +14,12 @@ const users = require('./auth-model.js')
 router.post('/register', checkParamsPresent, checkUsernameUnique, async (req, _, next) => {
   const { username, password, email = null } = req.body
 
-  const [user] = await users.insert({
+  const result = await users.insert({
     username,
     password: bcrypt.hashSync(password, 8),
     email
   })
+  const user = Array.isArray(result) ? result[0] : result;
   req.user = user
   req.status = 201
   next()
