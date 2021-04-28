@@ -28,6 +28,7 @@ describe('get api/account/requests/owned', () => {
     let res = await request(server).get(path).set({authorization: 'invalid token' })
     expect(res.status).toBe(401)
   })
+  it.todo('gets on good token fails on respons "you have no requests"')
   it('gets on good token', async () => {
     let res = await request(server).get(path).set(headers)
     expect(res.status).toBe(200)
@@ -36,7 +37,7 @@ describe('get api/account/requests/owned', () => {
 })
 
 describe('get api/account/requests', () => {
-  const path = '/api/account/requests/owned'
+  const path = '/api/account/requests'
 
   it('fails no token', async () => {
     let res = await request(server).get(path).set({})
@@ -49,6 +50,7 @@ describe('get api/account/requests', () => {
   it('gets on good token', async () => {
     let res = await request(server).get(path).set(headers)
     expect(res.status).toBe(200)
+    console.log(53, res.body) // don't know why Array.isArray is returning false
     expect(Array.isArray(res.body)).toBe(true)
   })
 })
@@ -71,10 +73,12 @@ describe('post api/requests', () => {
   })
   it('fails invalid id', async () => {
     let res = await request(server).post(path).send({item_id: 1000000}).set(headers)
+    console.log(76, res.body)
     expect(res.status).toBe(404)
   })
   it('returns new request', async () => {
     let res = await request(server).post(path).send(newRequest).set(headers)
+    console.log(81, res.body)
     expect(res.status).toBe(201)
     expect(res.body).toHaveProperty('request_id')
     expect(res.body).toHaveProperty('item_id')
@@ -102,8 +106,8 @@ describe('get api/requests/:id', () => {
   })
   it('gets request', async () => {
     let res = await request(server).get(path + '1').set(headers)
+    console.log(path + '1', res.body)
     expect(res.status).toBe(200)
-    console.log(106, res.body)
     expect(res.body).toHaveProperty('request_id')
     expect(res.body).toHaveProperty('item_id')
     expect(res.body).toHaveProperty('owner_id')

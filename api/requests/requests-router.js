@@ -14,6 +14,7 @@ router.get('/', (req, res) => {
 });
 
 router.get('/:request_id', checkRequestExists, (req, res) => {
+  console.log('request router', req.params)
   res.status(200).json(req.request);
 });
 
