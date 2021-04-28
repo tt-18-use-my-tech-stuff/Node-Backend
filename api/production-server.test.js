@@ -80,3 +80,90 @@ describe('/api/auth routes', () =>{
     })
   })
 })
+
+describe.only('/api/items', () => {
+
+  let headers = {}
+  const path = '/items'
+  const user = { username: 'bobby', password: 'aoeu' }
+  const testItem = {
+    item_name: 'Television',
+    item_description: 'New TV! It works great!',
+    price: 0.555,
+    category: 'Displays',
+  }
+
+  beforeAll(async () => {
+    let res = await axios.post(base_url + '/auth/login', user)
+    headers = { headers: { authorization: res.data.token } }
+    console.log(headers)
+  })
+
+  describe('POST /', () => {
+
+    it('rejects unauthorized requests', async () => {
+      let res = await axios.post(base_url + path, testItem).catch( err => err.response)
+      expect(res.status).toBe(401)
+      expect(res.data.message).toBe('Token required')
+    })
+  
+    it('rejects incorrect requests', async () => {
+      let res
+  
+      res = await axios.post(base_url + path, {}, headers).catch( err => err.response)
+      expect(res.status).toBe(400)
+      expect(res.data.message).toBe('item_name required.')
+  
+      res = await axios.post(base_url + path, { item_name: 'asdfasdf' }, headers)
+        .catch( err => err.response)
+      expect(res.status).toBe(400)
+      expect(res.data.message).toBe('item_description required.')
+  
+      res = await axios.post(base_url + path, {
+        item_name: 'asdfasdf',
+        item_description: 'asdfasdf',
+      }, headers)
+        .catch( err => err.response)
+      expect(res.status).toBe(400)
+      expect(res.data.message).toBe('price required.')
+  
+      res = await axios.post(base_url + path, {
+          ...testItem,
+          extraField: 'asdf',
+        }, headers)
+        .catch( err => err.respone)
+      expect(res.status).toBe(400)
+      expect(res.data.message).toBe('extraField is not a valid field.')
+    })
+  
+    it('accepts properly formatted item', async () => {
+      let res = await axios.post(base_url + path, testItem, headers)
+      expect(res.status).toBe(201)
+    })
+  })
+  
+  describe('PUT /', () => {
+    it('can edit items', async () => {
+      let res
+      res = await axios.post(base_url + path, testItem, headers)
+      const item_id = res.data.item_id
+      res = await axios.put(base_url + path + item_id, { item_description: 'nvm, not new anymore' }, headers)
+      expect(res.status).toBe(200)
+      res = await axios.get(base_url + path + item_id, headers)
+      expect(res.data.item_description).toBe('nvm, not new anymore')
+    })
+  })
+  
+  describe('DELETE /:id', () => {
+    it('can delete items', async () => {
+      let res
+      res = await axios.post(base_url + path, testItem, headers)
+      const item_id = res.data.item_id
+      res = await axios.delete(base_url + path + item_id, headers)
+      expect(res.status).toBe(200)
+      res = await axios.post(base_url + path).get(`/api/items/${item_id}`, headers)
+      expect(res.status).toBe(404)
+      expect(res.data.message).toBe(`No item found with id ${item_id}.`)
+    })
+  })
+})
