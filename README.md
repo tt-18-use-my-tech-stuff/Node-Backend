@@ -154,7 +154,7 @@ Headers:
   | :-- | :-- | :-- |
   | item_name | string | (required) |
   | item_description | string | (required) |
-  | price | number | (required) |
+  | price | number | (required) Cannot be less than $0.00 or more than $999,999.99 |
   | category | string | (required) |
 
   Response: The created item
