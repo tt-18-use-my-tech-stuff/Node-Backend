@@ -1,11 +1,12 @@
 const jwt = require('jsonwebtoken')
 
+const { getById: getRequestById } = require('../requests/requests-model.js')
+
 const { JWT_SECRET } = require('../secret/secret.js')
 
 module.exports = {
   accountRequired,
-  ownerOnly,
-  renterOnly
+  onlyCreaterX
 }
 
 function accountRequired(req, res, next){
@@ -23,12 +24,12 @@ function accountRequired(req, res, next){
   })
 }
 
-// only the owner can accept a request
-function ownerOnly(req, res, next){
-
-}
-
-// only the renter can cancel a request
-function renterOnly(req, res, next){
-
+// only the creater of an item or request can change it
+function onlyCreaterX(creater){
+  return (req, res, next) => {
+    const id = req.decodedToken.subject
+    id === req.request[`${creater}_id`]
+      ? next()
+      : next({ status: 403, message: 'You did not make this request'})
+  }
 }
