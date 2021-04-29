@@ -52,8 +52,8 @@ const validateItemPut = (req, res, next) => {
     next({ status: 400, message: 'price cannot be less than $0.00.' });
     return;
   }
-  if (item.price > 9999.99) {
-    next({ status: 400, message: 'price cannot be more than $9,999.99.' });
+  if (item.price > 999999.99) {
+    next({ status: 400, message: 'price cannot be more than $999,999.99.' });
     return;
   }
 
