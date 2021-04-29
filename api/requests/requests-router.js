@@ -5,7 +5,7 @@ const {
   checkRequestExists,
   checkRequestPost,
   checkResponse,
-  attachRenterId
+  attachRequesterId
 } = require('./requests-middleware.js');
 
 router.get('/', (req, res) => {
@@ -18,7 +18,7 @@ router.get('/:request_id', checkRequestExists, (req, res) => {
   res.status(200).json(req.request);
 });
 
-router.post('/', checkRequestPost, attachRenterId, (req, res, next) => {
+router.post('/', checkRequestPost, attachRequesterId, (req, res, next) => {
   const request = req.body;
   Request.insert({...request, status: 'pending'})
     .then((newRequest) => {

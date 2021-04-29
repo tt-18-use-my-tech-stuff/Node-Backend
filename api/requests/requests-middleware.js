@@ -31,7 +31,7 @@ const checkRequestPost = (req, res, next) => {
 	.catch(next);
 };
 
-const checkResponse = (req, res, next) => {
+const checkResponse = async (req, res, next) => {
 	const response = req.body.response;
 
 	if (response === undefined) {
@@ -40,15 +40,18 @@ const checkResponse = (req, res, next) => {
 	else if (typeof response !== 'string') {
     next({ status: 400, message: `response must be of type "string".` });
 	}
-	else if (response === 'accepted') {
+	else if (response === 'accepted') { 
 		if (req.request.status !== 'pending') {
 			next({ status:400, message: "Cannot accept a request that is not pending." })
 		}
-		else if (req.request.renter_id !== null) {
-			next({ status: 400, message: "The item is being rented by another user." });
-		}
 		else {
-			next();
+			const item = await Item.getById(req.request.item_id);
+			if (item.renter_id) {
+				next({ status: 400, message: "The item is being rented by another user." });
+			}
+			else {
+				next();
+			}
 		}
 	}
 	else if (response === 'declined') {
@@ -72,7 +75,7 @@ const checkResponse = (req, res, next) => {
 	}
 }
 
-const attachRenterId = (req, res, next) => {
+const attachRequesterId = (req, res, next) => {
 	const renter_id = req.decodedToken.subject;
 	req.body.renter_id = renter_id;
 	next();
@@ -82,5 +85,5 @@ module.exports = {
 	checkRequestExists,
   checkRequestPost,
 	checkResponse,
-	attachRenterId
+	attachRequesterId
 };

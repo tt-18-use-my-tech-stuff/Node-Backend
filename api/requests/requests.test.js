@@ -7,6 +7,7 @@ const headers = {};
 const ownerHeaders = {};
 
 const user = { username: 'bobby', password: 'aoeu' };
+const user2 = { username: 'billybob', password: 'aoeu' };
 const owner = { username: 'sally', password: 'aoeu' };
 const item1 = {
   item_name: 'TV',
@@ -145,18 +146,20 @@ describe('get api/requests/:id', () => {
   });
 });
 
-describe('A bunch of request business', () => {
+describe('put api/requests/:request_id/respond', () => {
 
-  let res;
-  let item_id;
-  let request_id;
+  it('can do request response stuff', async () => {
+    let res;
+    let item_id;
+    let request1_id;
+    let request2_id;
 
-  beforeEach(async () => {
-    // owner makes a tv
+    // owner posts a tv
     res = await request(server)
       .post('/api/items')
       .set(ownerHeaders)
       .send(item1);
+    expect(res.status).toBe(201);
     item_id = res.body.item_id;
 
     // user requests the tv
@@ -164,35 +167,59 @@ describe('A bunch of request business', () => {
       .post('/api/requests')
       .set(headers)
       .send({ item_id });
-    let request_id = res.body.request_id;
-  })
+    expect(res.status).toBe(201);
+    request1_id = res.body.request_id;
 
-  it('allows owner to respond to requests', async () => {
-    let res;
-
-
-    // user can cancel the request
+    // owner fails to complete the request (because it's not accepted yet)
     res = await request(server)
-      .delete(`/api/requests/${request_id}`)
-      .set(headers);
+      .put(`/api/requests/${request1_id}/respond`)
+      .set(ownerHeaders)
+      .send({ response: 'completed' });
+    expect(res.status).toBe(400);
+    expect(res.body.message).toBe('Cannot complete a request that is not accepted.');
+
+    // owner successfully accepts a request
+    res = await request(server)
+      .put(`/api/requests/${request1_id}/respond`)
+      .set(ownerHeaders)
+      .send({ response: 'accepted' });
     expect(res.status).toBe(200);
 
-    // user requests again
+    // user 2 requests the tv
     res = await request(server)
       .post('/api/requests')
       .set(headers)
       .send({ item_id });
-    request_id = res.body.request_id;
+    expect(res.status).toBe(201);
+    request2_id = res.body.request_id;
 
-    // user cannot accept the request (because he is not the owner)
-    
-
-    // owner cannot complete the request (because it hasn't been accepted)
+    // owner fails to accept user 2's request because the item is already accepted
     res = await request(server)
-      .put(`/api/requests/${request_id}/respond`)
+      .put(`/api/requests/${request2_id}/respond`)
+      .set(ownerHeaders)
+      .send({ response: 'accepted' });
+    expect(res.status).toBe(400);
+    expect(res.body.message).toBe('The item is being rented by another user.');
+
+    // owner completes user1's request
+    res = await request(server)
+      .put(`/api/requests/${request1_id}/respond`)
       .set(ownerHeaders)
       .send({ response: 'completed' });
-    expect(res.status).toBe(400);
-    res = await request(server).post('/');
+    expect(res.status).toBe(200);
+
+    // owner can now successfully accept user 2's request
+    res = await request(server)
+      .put(`/api/requests/${request2_id}/respond`)
+      .set(ownerHeaders)
+      .send({ response: 'accepted' });
+    expect(res.status).toBe(200);
+
+    // user1 cannot respond to a request for owner's item
+    res = await request(server)
+      .put(`/api/requests/${request2_id}/respond`)
+      .set(headers)
+      .send({ response: 'completed' });
+    expect(res.status).toBe(200);
   });
 });
