@@ -4,11 +4,12 @@ const server = require('../server.js');
 const db = require('../../data/dbconfig');
 
 const headers = {};
-const ownerHeaders = {};
+const owner_headers = {};
+const user2_headers = {};
 
 const user = { username: 'bobby', password: 'aoeu' };
-const user2 = { username: 'billybob', password: 'aoeu' };
-const owner = { username: 'sally', password: 'aoeu' };
+const user2 = { username: 'user2', password: 'test' };
+const owner = { username: 'owner', password: 'test' };
 const item1 = {
   item_name: 'TV',
   item_description: 'It be a TV',
@@ -21,10 +22,6 @@ beforeAll(async () => {
   await db.migrate.latest();
   let res = await request(server).post('/api/auth/register').send(user);
   headers.Authorization = res.body.token;
-
-  await db.seed.run();
-  res = await request(server).post('/api/auth/login').send(owner);
-  ownerHeaders.Authorization = res.body.token;
 });
 beforeEach(async () => {
   await db.seed.run();
@@ -154,15 +151,23 @@ describe('put api/requests/:request_id/respond', () => {
     let request1_id;
     let request2_id;
 
+    // register owner
+    res = await request(server).post('/api/auth/register').send(owner);
+    owner_headers.Authorization = res.body.token;
+
+    // register user2
+    res = await request(server).post('/api/auth/register').send(user2);
+    user2_headers.Authorization = res.body.token;
+
     // owner posts a tv
     res = await request(server)
       .post('/api/items')
-      .set(ownerHeaders)
+      .set(owner_headers)
       .send(item1);
     expect(res.status).toBe(201);
     item_id = res.body.item_id;
 
-    // user requests the tv
+    // user 1 requests the tv
     res = await request(server)
       .post('/api/requests')
       .set(headers)
@@ -173,7 +178,7 @@ describe('put api/requests/:request_id/respond', () => {
     // owner fails to complete the request (because it's not accepted yet)
     res = await request(server)
       .put(`/api/requests/${request1_id}/respond`)
-      .set(ownerHeaders)
+      .set(owner_headers)
       .send({ response: 'completed' });
     expect(res.status).toBe(400);
     expect(res.body.message).toBe('Cannot complete a request that is not accepted.');
@@ -181,14 +186,14 @@ describe('put api/requests/:request_id/respond', () => {
     // owner successfully accepts a request
     res = await request(server)
       .put(`/api/requests/${request1_id}/respond`)
-      .set(ownerHeaders)
+      .set(owner_headers)
       .send({ response: 'accepted' });
     expect(res.status).toBe(200);
 
     // user 2 requests the tv
     res = await request(server)
       .post('/api/requests')
-      .set(headers)
+      .set(user2_headers)
       .send({ item_id });
     expect(res.status).toBe(201);
     request2_id = res.body.request_id;
@@ -196,7 +201,7 @@ describe('put api/requests/:request_id/respond', () => {
     // owner fails to accept user 2's request because the item is already accepted
     res = await request(server)
       .put(`/api/requests/${request2_id}/respond`)
-      .set(ownerHeaders)
+      .set(owner_headers)
       .send({ response: 'accepted' });
     expect(res.status).toBe(400);
     expect(res.body.message).toBe('The item is being rented by another user.');
@@ -204,14 +209,14 @@ describe('put api/requests/:request_id/respond', () => {
     // owner completes user1's request
     res = await request(server)
       .put(`/api/requests/${request1_id}/respond`)
-      .set(ownerHeaders)
+      .set(owner_headers)
       .send({ response: 'completed' });
     expect(res.status).toBe(200);
 
     // owner can now successfully accept user 2's request
     res = await request(server)
       .put(`/api/requests/${request2_id}/respond`)
-      .set(ownerHeaders)
+      .set(owner_headers)
       .send({ response: 'accepted' });
     expect(res.status).toBe(200);
 
@@ -220,6 +225,19 @@ describe('put api/requests/:request_id/respond', () => {
       .put(`/api/requests/${request2_id}/respond`)
       .set(headers)
       .send({ response: 'completed' });
+    expect(res.status).toBe(403);
+
+    // user2 cannot delete user1's request
+    res = await request(server)
+      .del(`/api/requests/${request1_id}`)
+      .set(user2_headers)
+    expect(res.status).toBe(403);
+    expect(res.body.message).toBe('You did not make this request');
+
+    // user1 can delete their own request
+    res = await request(server)
+      .del(`/api/requests/${request1_id}`)
+      .set(headers)
     expect(res.status).toBe(200);
   });
 });
