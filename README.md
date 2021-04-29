@@ -154,7 +154,7 @@ Headers:
   | :-- | :-- | :-- |
   | item_name | string | (required) |
   | item_description | string | (required) |
-  | price | number | (required) |
+  | price | number | (required) Cannot be less than $0.00 or more than $999,999.99 |
   | category | string | (required) |
 
   Response: The created item
@@ -229,12 +229,8 @@ Headers:
     request_id: 1,
     item_id: 2,
     owner_id: 3,
-    renter_id: 4,
-    status: "pending",
-    item_name: "A Real Keyboard",
-    item_description: "Made of cardboard. Not a real keyboard",
-    price: 8,
-    category: "Office"
+    requester_id: 4,
+    status: "pending"
   }
   ```
 </details>
@@ -252,12 +248,8 @@ Headers:
     request_id: 1,
     item_id: 2,
     owner_id: 3,
-    renter_id: 4,
-    status: <Status as a string: "pending", "accepted", "rejected", or "completed">,
-    item_name: "A Real Keyboard",
-    item_description: "Made of cardboard. Not a real keyboard",
-    price: 8,
-    category: "Office"
+    requester_id: 4,
+    status: <Status as a string: "pending", "accepted", "rejected", or "completed">
   }
   ```
 </details>
@@ -282,12 +274,8 @@ Headers:
     request_id: 1,
     item_id: 2,
     owner_id: 3,
-    renter_id: 4,
-    status: <Status as a string: "accepted", "rejected", or "completed">,
-    item_name: "A Real Keyboard",
-    item_description: "Made of cardboard. Not a real keyboard",
-    price: 8,
-    category: "Office"
+    requester_id: 4,
+    status: <Status as a string: "accepted", "rejected", or "completed">
   }
   ```
 </details>

@@ -48,6 +48,15 @@ const validateItemPut = (req, res, next) => {
     }
   }
 
+  if (item.price < 0) {
+    next({ status: 400, message: 'price cannot be less than $0.00.' });
+    return;
+  }
+  if (item.price > 999_999.99) {
+    next({ status: 400, message: 'price cannot be more than $999,999.99.' });
+    return;
+  }
+
   next();
 };
 
@@ -69,9 +78,9 @@ const checkItemIdExists = (req, res, next) => {
         next({ status: 404, message: `No item found with id ${item_id}.` });
       }
     })
-    .catch(err => {
-      console.log('checkItemIdExists middleware')
-      next(err)
+    .catch((err) => {
+      console.log('checkItemIdExists middleware');
+      next(err);
     });
 };
 
@@ -87,9 +96,9 @@ const checkItemIsMine = (req, res, next) => {
         next({ status: 403, message: 'You are not the owner of this item.' });
       }
     })
-    .catch(err => {
-      console.log('checkItemIsMine middleware')
-      next(err)
+    .catch((err) => {
+      console.log('checkItemIsMine middleware');
+      next(err);
     });
 };
 

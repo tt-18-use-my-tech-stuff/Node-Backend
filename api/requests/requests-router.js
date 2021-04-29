@@ -8,6 +8,11 @@ const {
   attachRequesterId
 } = require('./requests-middleware.js');
 
+const { onlyCreaterX } = require('../middleware/restricted.js');
+const onlyOwner = onlyCreaterX('owner')
+const onlyRenter = onlyCreaterX('renter')
+
+
 router.get('/', (req, res) => {
   // really just here for testing
   Request.get().then((requests) => res.status(200).json(requests));
@@ -31,6 +36,7 @@ router.put(
   '/:request_id/respond',
   checkRequestExists,
   checkResponse,
+  onlyOwner,
   (req, res, next) => {
     Request.update(req.params.request_id, { status: req.body.response })
       .then((updatedRequest) => {
@@ -40,7 +46,10 @@ router.put(
   }
 );
 
-router.delete('/:request_id', (req, res, next) => {
+router.delete('/:request_id',
+  checkRequestExists,
+  onlyRenter,
+  (req, res, next) => {
   Request.remove(req.params.request_id)
     .then((deletedRequestId) => {
       res.status(200).json(deletedRequestId);
