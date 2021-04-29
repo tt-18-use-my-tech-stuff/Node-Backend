@@ -5,7 +5,7 @@ const {
   checkRequestExists,
   checkRequestPost,
   checkResponse,
-  attachRequesterId
+  attachRenterId
 } = require('./requests-middleware.js');
 
 const { onlyCreaterX } = require('../middleware/restricted.js');
@@ -23,7 +23,7 @@ router.get('/:request_id', checkRequestExists, (req, res) => {
   res.status(200).json(req.request);
 });
 
-router.post('/', checkRequestPost, attachRequesterId, (req, res, next) => {
+router.post('/', checkRequestPost, attachRenterId, (req, res, next) => {
   const request = req.body;
   Request.insert({...request, status: 'pending'})
     .then((newRequest) => {

@@ -41,8 +41,8 @@ const getById = (request_id) => {
 const insert = async (request) => {
   let idArr;
   process.env.NODE_ENV !== 'production'
-    ? idArr = await db('requests').insert(request)
-    : idArr = await db('requests').insert(request).returning('request_id');
+    ? (idArr = await db('requests').insert(request))
+    : (idArr = await db('requests').insert(request).returning('request_id'));
   return getById(idArr[0]);
   // if (process.env.NODE_ENV !== 'production') {
   //   const [id] = await db('requests').insert(request);

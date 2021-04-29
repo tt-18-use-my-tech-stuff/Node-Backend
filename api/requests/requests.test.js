@@ -144,7 +144,6 @@ describe('get api/requests/:id', () => {
 });
 
 describe('put api/requests/:request_id/respond', () => {
-
   it('can do request response stuff', async () => {
     let res;
     let item_id;
@@ -181,7 +180,9 @@ describe('put api/requests/:request_id/respond', () => {
       .set(owner_headers)
       .send({ response: 'completed' });
     expect(res.status).toBe(400);
-    expect(res.body.message).toBe('Cannot complete a request that is not accepted.');
+    expect(res.body.message).toBe(
+      'Cannot complete a request that is not accepted.'
+    );
 
     // owner successfully accepts a request
     res = await request(server)
@@ -230,14 +231,14 @@ describe('put api/requests/:request_id/respond', () => {
     // user2 cannot delete user1's request
     res = await request(server)
       .del(`/api/requests/${request1_id}`)
-      .set(user2_headers)
+      .set(user2_headers);
     expect(res.status).toBe(403);
     expect(res.body.message).toBe('You did not make this request');
 
     // user1 can delete their own request
     res = await request(server)
       .del(`/api/requests/${request1_id}`)
-      .set(headers)
+      .set(headers);
     expect(res.status).toBe(200);
   });
 });
