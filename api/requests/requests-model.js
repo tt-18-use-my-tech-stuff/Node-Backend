@@ -23,9 +23,9 @@ const getBy = (filter) => {
 		.select([
 			'request_id',
 			'i.item_id',
-			'owner_id',
 			'renter_id',
 			'status',
+			'owner_id',
 			'item_name',
 			'item_description',
 			'price',
@@ -44,15 +44,6 @@ const insert = async (request) => {
 		? (idArr = await db('requests').insert(request))
 		: (idArr = await db('requests').insert(request).returning('request_id'));
 	return getById(idArr[0]);
-	// if (process.env.NODE_ENV !== 'production') {
-	//   const [id] = await db('requests').insert(request);
-	//   return getById(id);
-	// } else {
-	//   const [newRequestID] = await db('requests')
-	//     .insert(request)
-	//     .returning('request_id');
-	//   return getById(newRequestID);
-	// }
 };
 
 const update = async (request_id, request) => {
@@ -63,17 +54,7 @@ const update = async (request_id, request) => {
 		const newRequests = await db('requests')
 			.where({ request_id })
 			.update(request)
-			.returning([
-				'request_id',
-				'item_id',
-				'owner_id',
-				'renter_id',
-				'status',
-				'item_name',
-				'item_description',
-				'price',
-				'category',
-			]);
+			.returning(['request_id', 'item_id', 'renter_id', 'status']);
 		return newRequests[0];
 	}
 };
